@@ -1,6 +1,8 @@
 <?php
 $this->headTitle('Members - New Member');
-
+$form = $this->form;
+//
+$form->setElementDecorators(array('ViewHelper'));
 ?>
 
 
@@ -27,8 +29,8 @@ $this->headTitle('Members - New Member');
             </div>
             <div class="panel-body">
 
-                <form class="form-horizontal">
-                    
+                <form class="form-horizontal" method="post" action="">
+                    <input type="hidden" name="task" value="save">
                     <fieldset>
 
                         <!-- Form Name -->
