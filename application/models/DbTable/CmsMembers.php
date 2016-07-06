@@ -9,4 +9,30 @@ class Application_Model_DbTable_CmsMembers extends Zend_Db_Table_Abstract
     protected $_name = 'cms_members';
     
     
-}
+    
+    
+    
+     /**
+     * 
+     * @param int $id
+     * @return null|array Associative array with keys as cms_members table columns or NULL if not found
+     */
+    public function getMemberById($id){
+        
+        $select = $this->select();
+        $select->where('id =?',  $id);
+        
+        $row = $this->fetchRow($select);
+        
+        if($row instanceof Zend_Db_Table_Row){
+            
+            return $row->toArray(); 
+        } else {
+            //row not found
+            return null;
+        }
+        }
+        
+       
+    }
+

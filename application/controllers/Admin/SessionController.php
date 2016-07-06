@@ -52,7 +52,7 @@ class Admin_SessionController extends Zend_Controller_Action {
                     //PO default-u se smesta samo username, a ovako smestamo asocijativni niz, tj row iz tabele
                     
                     //Asocijativni niz user ima kljuceve koji su nazivi kolona u tabeli cms_users
-                    $user = $authAdapter->getResultRowObject();
+                    $user = (array)$authAdapter->getResultRowObject();
                    
                     $auth->getStorage()->write($user);
                     
