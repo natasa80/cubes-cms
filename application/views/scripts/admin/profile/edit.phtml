@@ -9,6 +9,12 @@ $form->setElementDecorators(array('ViewHelper'));
     <h1>Profile <small>Edit Member</small></h1>
 </div>
 
+<div class="row">
+    <div class="col-lg-12">
+        <?php echo $this->systemMessagesHtml($this->systemMessages); ?>
+    </div>
+</div>
+
 
 <div class="row">
     <div class="col-lg-12">
@@ -23,9 +29,10 @@ $form->setElementDecorators(array('ViewHelper'));
             </div>
 
 
-            <div class="panel-body" method="post" action="">
-                <input type="hidden" name="task" value="save">
-                <form class="form-horizontal">
+            <div class="panel-body" >
+                
+                <form class="form-horizontal" method="post" action="">
+                    <input type="hidden" name="task" value="save">
                     
                     <fieldset>
 
