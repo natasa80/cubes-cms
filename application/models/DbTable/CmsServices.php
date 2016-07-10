@@ -43,8 +43,6 @@ class Application_Model_DbTable_CmsServices extends Zend_Db_Table_Abstract
            
         }
          public function insertService($service){
-        //fetch order number for new member
-        
         $id = $this->insert($service);
         
         return $id;
