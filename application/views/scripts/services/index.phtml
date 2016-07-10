@@ -17,30 +17,20 @@ $this->headTitle('Services');
 				<!-- Services -->
 				<div class="block services">
 					<ul class="thumbnails row">
+                                             <?php 
+                                            foreach ($this->services as $service) {
+                                                if ($service['status'] == Application_Model_DbTable_CmsMembers::STATUS_ENABLED){
+                                                    ?>
 						<li class="col-md-3">
 							<h3 class="title">
-								<i class="glyphicon glyphicon-wrench icon-small icon-inverse-80 _icon-circle"></i> Web
+								<i class="<?php echo $this->escape($service['icon'])?> icon-small icon-inverse-80 _icon-circle"></i><?php echo $this->escape($service['title'])?> 
 							</h3>
-							<p>Rhoncus adipiscing, magna integer cursus augue eros lacus porttitor magna. Dictumst, odio! Elementum tortor sociis in eu dis dictumst pulvinar lorem nec aliquam a nascetur.</p>
+							<p><?php echo $this->escape($service['description'])?></p>
 						</li>
-						<li class="col-md-3">
-							<h3 class="title">
-								<i class="glyphicon glyphicon-search icon-small icon-inverse-80 _icon-circle"></i> SEO
-							</h3>
-							<p>Rhoncus adipiscing, magna integer cursus augue eros lacus porttitor magna. Dictumst, odio! Elementum tortor sociis in eu dis dictumst pulvinar lorem nec aliquam a nascetur.</p>
-						</li>
-						<li class="col-md-3">
-							<h3 class="title">
-								<i class="glyphicon glyphicon-pencil icon-small icon-inverse-80 _icon-circle"></i> Design
-							</h3>
-							<p>Rhoncus adipiscing, magna integer cursus augue eros lacus porttitor magna. Dictumst, odio! Elementum tortor sociis in eu dis dictumst pulvinar lorem nec aliquam a nascetur.</p>
-						</li>
-						<li class="col-md-3">
-							<h3 class="title">
-								<i class="glyphicon glyphicon-shopping-cart icon-small icon-inverse-80 _icon-circle"></i> eCommerce
-							</h3>
-							<p>Rhoncus adipiscing, magna integer cursus augue eros lacus porttitor magna. Dictumst, odio! Elementum tortor sociis in eu dis dictumst pulvinar lorem nec aliquam a nascetur.</p>
-						</li>
+						<?php
+                                                }
+                            }
+                            ?>
 					</ul>
 					
 				</div>
