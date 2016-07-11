@@ -1,143 +1,12 @@
-
+                                                                                                                
 
 <div class="page-header">
   <h1>JavaScript 1</h1>
 </div>
-<div class="row">
-	<div class="col-lg-12">
-		<button class="btn btn-default">Ulepsaj tabelu</button>
-		<button class="btn btn-default">Dodaj red</button>
-		<a href="http://www.facebook.com" class="btn btn-default">Otvori facebook</a>
-	</div>
-</div>
-<div class="row">
-	<div class="col-lg-12">
-		<table>
-			<thead>
-				<tr>
-					<th>ID</th>
-					<th>Ime</th>
-					<th>Prezime</th>
-					<th>#</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>php01</td>
-					<td>Aleksandar</td>
-					<td>Stevanovic</td>
-					<td>
-						<div class="btn-group">
-							<button class="btn btn-sm"><i class="fa fa-eye"></i></button>
-							<button class="btn btn-sm"><i class="fa fa-trash"></i></button>
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>php02</td>
-					<td>Natasa</td>
-					<td>Lukic</td>
-					<td>
-						<div class="btn-group">
-							<button class="btn btn-sm"><i class="fa fa-eye"></i></button>
-							<button class="btn btn-sm"><i class="fa fa-trash"></i></button>
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>php03</td>
-					<td>Aleksandra</td>
-					<td>Petkovic</td>
-					<td>
-						<div class="btn-group">
-							<button class="btn btn-sm"><i class="fa fa-eye"></i></button>
-							<button class="btn btn-sm"><i class="fa fa-trash"></i></button>
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>php04</td>
-					<td>Djordje</td>
-					<td>Stojiljkovic</td>
-					<td>
-						<div class="btn-group">
-							<button class="btn btn-sm"><i class="fa fa-eye"></i></button>
-							<button class="btn btn-sm"><i class="fa fa-trash"></i></button>
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>php05</td>
-					<td>Milos</td>
-					<td>Stefanovic</td>
-					<td>
-						<div class="btn-group">
-							<button class="btn btn-sm"><i class="fa fa-eye"></i></button>
-							<button class="btn btn-sm"><i class="fa fa-trash"></i></button>
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>php06</td>
-					<td>Milomir</td>
-					<td>Dragovic</td>
-					<td>
-						<div class="btn-group">
-							<button class="btn btn-sm"><i class="fa fa-eye"></i></button>
-							<button class="btn btn-sm"><i class="fa fa-trash"></i></button>
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>php07</td>
-					<td>Miroslav</td>
-					<td>Mutic</td>
-					<td>
-						<div class="btn-group">
-							<button class="btn btn-sm"><i class="fa fa-eye"></i></button>
-							<button class="btn btn-sm"><i class="fa fa-trash"></i></button>
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>php08</td>
-					<td>Bojan</td>
-					<td>Joncic</td>
-					<td>
-						<div class="btn-group">
-							<button class="btn btn-sm"><i class="fa fa-eye"></i></button>
-							<button class="btn btn-sm"><i class="fa fa-trash"></i></button>
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>php09</td>
-					<td>Arben</td>
-					<td>Bakiu</td>
-					<td>
-						<div class="btn-group">
-							<button class="btn btn-sm"><i class="fa fa-eye"></i></button>
-							<button class="btn btn-sm"><i class="fa fa-trash"></i></button>
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>php10</td>
-					<td>Zeljka</td>
-					<td>Babic</td>
-					<td>
-						<div class="btn-group">
-							<button class="btn btn-sm"><i class="fa fa-eye"></i></button>
-							<button class="btn btn-sm"><i class="fa fa-trash"></i></button>
-						</div>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-</div>
+
 
 <script>
+    <?php $this->inlineScript()->captureStart(); ?>
     
 var ime = 'Ime1';
 var starost = 30;
@@ -165,8 +34,9 @@ var polaznik = {
 
 
 for(var key in polaznik){
-    console.log(key + '-> ' + polaznik[key]);
+    //console.log(key + '-> ' + polaznik[key]);
 }
+
 //alert(polaznik.prezime);
 
 //JSON - JavaScript Object Notation
@@ -191,9 +61,11 @@ var cubes = {
                 ios02: 'IOS 2',
                 ios03: 'IOS 3'
             }
-        }
+        }              
     ]
 };
+                        
+   window.c                                                                                                                                                                           
 //console.log(cubes);
 
 //alert(cubes.courses[0].students.php03);
@@ -201,8 +73,88 @@ var cubes = {
 //alert(cubes['courses'][0]['students']['php02']);
 
 
+var doubleTestNubmer = 77;
+//pozivanje fje 1
+function testF(testNumber) {
+    var doubleTestNubmer  = testNumber *2; //ukoliko nije ovde definisana trazi se van 
+    //console.log('Calling finction testF ' + doubleTestNubmer+ '!');
+    
+}; //stavljati ;
 
-</script>>
+testF(1);//pozivanje fje
+testF(2);
+testF(3);
+testF(4);
+testF(5);
+//console.log('Double Test nuber is ' + doubleTestNubmer);
+
+
+//pozivanje funkcije nacin 2
+var testF2 = function(){ //ANONIMNA FUNKCIJA-NEMA IME
+    console.log('Caling testF2!');
+};
+
+
+testF2();
+//instanciranje objekat uz pomic fje
+//Object constructor
+function Polaznik(ime, prezime, starost){
+    
+    this.ime = ime;
+    this.prezime = prezime;
+    this.starost = starost;
+    
+    this.predstaviSe = function() {
+        return 'Ja sam ' + this.ime + ' ' + this.prezime + ' i imam ' + this.starost + 'god';
+    
+};
+};
+
+var p1 = new Polaznik('Ime1', 'Prezime1', '11');
+var p2 = new Polaznik('Ime2', 'Prezime2', '22');
+var p3 = new Polaznik('Ime3', 'Prezime3', '33');
+var p4 = new Polaznik('Ime4', 'Prezime4', '44');
+
+console.log(p1.predstaviSe());
+console.log(p2.predstaviSe());
+console.log(p3.predstaviSe());
+console.log(p4.predstaviSe());
+
+p4.getIme = function(){ //naknado je dodat property samo za p4 i samo ce on ima ti njega
+    return this.ime;
+};
+
+
+
+
+
+//master objekat
+//ako se ne navede var podrazumeva se da je window objekat
+window;
+
+//working with computer screen
+window.screen;
+screen;
+
+//working with browser location (adress bar)
+window.location;
+location;
+
+//setTimeout(function(){
+//    
+//    location.href = "http://www.google.com/"; //redirect
+//    
+//}, 5000);//nakon 5sc izvrsi ovu fju
+
+
+//DOM
+window.document
+
+
+<?php $this->inlineScript()->captureEnd(); ?>
+</script>
+
+
 
  
 
