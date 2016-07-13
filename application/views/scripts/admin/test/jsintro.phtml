@@ -1,160 +1,153 @@
-                                                                                                                
-
 <div class="page-header">
   <h1>JavaScript 1</h1>
 </div>
 
 
+
 <script>
-    <?php $this->inlineScript()->captureStart(); ?>
+    //za smestanje JS-a na dno
+    <?php $this->inlineScript()->captureStart();?>
     
-var ime = 'Ime1';
-var starost = 30;
-
-//alert(ime);
-
-var polaznici = ['Aleksandar Stevanovic', 'Natasa Lukic', 'Aleksandra Petkovic'];
-
-for(var index in polaznici){
-    //console.log(index + ': ' + polaznici[index]);
-}
-
-
-//console.log(polaznici);
-//parseInt(index)+1
-//alert(polaznici[1]);
-
-
-//pravimo asocijativni niz
-var polaznik = {
-    ime: 'Ime1', 
-    prezime: 'Prezime1',
-    starost: 30
-};
-
-
-for(var key in polaznik){
-    //console.log(key + '-> ' + polaznik[key]);
-}
-
-//alert(polaznik.prezime);
-
-//JSON - JavaScript Object Notation
-
-var cubes = {
-    name: 'Cubes d.o.o',
-    address: 'Bul Mihajla pupina 181',
-    courses: [
-        {
-            name: 'PHP',
-            students: {
-                php01: 'Aleksandar Stevanovic',
-                php02: 'Natasa Lukic',
-                php03: 'Aleksandra Petkovic'
+    
+    var ime = 'Ime1';
+    var starost = 30;
+    
+    alert(ime);
+    
+    var polaznici = ['Aleksandar Stevanovic', 'Natasa Lukic', 'Aleksandra Petkovic'];
+    // for = foreach
+    for(var index in polaznici){
+        //console.log((parseInt(index) + 1) + ': ' + polaznici[index]);
+    }
+    
+    //console.log(polaznici);
+    //
+    //
+    //alert(polaznici[1]);
+    
+    
+    
+    var polaznik = {
+        'ime': 'Ime1',
+        'prezime': 'Prezime1',
+        starost: 30
+    };
+    
+    for(var key in polaznik){
+        //key cuva string
+        //console.log(key + ' -> ' + polaznik[key])
+    }
+    //alert(polaznik.prezime);
+    
+    // JSON - JavaScript Object Notation
+    
+    var cubes = {
+        name: 'Cubes d.o.o.',
+        address: 'Bul Mihajla Pupina 181',
+        courses: [
+            {
+                name: 'PHP',
+                students: {
+                    //kljuc mora biti jedinstven, string kako zelimo :)
+                    php01: 'Aleksandar Stevanovic',
+                    php02: 'Natasa Lukic',
+                    php03: 'Aleksandra Petkovic'
+                }
+            },
+            {
+                name: 'iOS',
+                students: {
+                    iOS01: 'IOS 1',
+                    iOS02: 'IOS 2',
+                    iOS03: 'IOS 3'
+                }
             }
-        },
+        ]
+    };
+    
+    
+    //console.log(cubes);
+    //alert(cubes.courses[0].students.php03);
+    
+    //alert(cubes['courses'][0]['students']['php02']);
+    
+    
+    var doubleTestNumber = 77;
+    
+    
+    //funkcija u JS posle uglastih zagrada ide ;
+    function testF(testNumber){
+        var doubleTestNumber = testNumber * 2
+        //console.log('Calling function testF' + doubleTestNumber + '!'); 
+    };
+    
+    testF(1); //calling function
+    testF(2);
+    testF(3);
+    testF(4);
+    testF(5);
+    
+    //console.log('Double test number is: ' + doubleTestNumber);
+    
+    
+    //def f-je na sled nacin //anonimna f-ja//nemaju ime//samo dodeljuju tip podatka
+    var testF2 = function(){
+        console.log('Calling testF2!');
+    };
+    
+    testF2();
+    
+    
+    //Object constructor
+    function Polaznik(ime,prezime, starost) {
+        //u moje ime stavi agument koji je naveden iz function Polaznik(ime) tako i za ostale dole
+        this.ime = ime;
+        this.prezime = prezime;
+        this.starost = starost;
         
-        {
-            name: 'IOS',
-            students: {
-                ios01: 'IOS 1',
-                ios02: 'IOS 2',
-                ios03: 'IOS 3'
-            }
-        }              
-    ]
-};
-                        
-   window.c                                                                                                                                                                           
-//console.log(cubes);
-
-//alert(cubes.courses[0].students.php03);
-
-//alert(cubes['courses'][0]['students']['php02']);
-
-
-var doubleTestNubmer = 77;
-//pozivanje fje 1
-function testF(testNumber) {
-    var doubleTestNubmer  = testNumber *2; //ukoliko nije ovde definisana trazi se van 
-    //console.log('Calling finction testF ' + doubleTestNubmer+ '!');
+        this.predstaviSe = function(){
+            return 'Ja sam ' + this.ime + ' ' + this.prezime + ' i imam ' + this.starost + ' god. ';
+        };
+        
+    };
     
-}; //stavljati ;
-
-testF(1);//pozivanje fje
-testF(2);
-testF(3);
-testF(4);
-testF(5);
-//console.log('Double Test nuber is ' + doubleTestNubmer);
-
-
-//pozivanje funkcije nacin 2
-var testF2 = function(){ //ANONIMNA FUNKCIJA-NEMA IME
-    console.log('Caling testF2!');
-};
-
-
-testF2();
-//instanciranje objekat uz pomic fje
-//Object constructor
-function Polaznik(ime, prezime, starost){
     
-    this.ime = ime;
-    this.prezime = prezime;
-    this.starost = starost;
+    var p1 = new Polaznik('Ime1', 'Prezime1', 11);
+    var p2 = new Polaznik('Ime2', 'Prezime2', 22);
+    var p3 = new Polaznik('Ime3', 'Prezime3', 33);
+    var p4 = new Polaznik('Ime4', 'Prezime4', 44);
     
-    this.predstaviSe = function() {
-        return 'Ja sam ' + this.ime + ' ' + this.prezime + ' i imam ' + this.starost + 'god';
+    //naknadno dodavanje property-ja na objekat
+    p4.getName = function() {
+        return this.ime;
+    };
     
-};
-};
-
-var p1 = new Polaznik('Ime1', 'Prezime1', '11');
-var p2 = new Polaznik('Ime2', 'Prezime2', '22');
-var p3 = new Polaznik('Ime3', 'Prezime3', '33');
-var p4 = new Polaznik('Ime4', 'Prezime4', '44');
-
-console.log(p1.predstaviSe());
-console.log(p2.predstaviSe());
-console.log(p3.predstaviSe());
-console.log(p4.predstaviSe());
-
-p4.getIme = function(){ //naknado je dodat property samo za p4 i samo ce on ima ti njega
-    return this.ime;
-};
-
-
-
-
-
-//master objekat
-//ako se ne navede var podrazumeva se da je window objekat
-window;
-
-//working with computer screen
-window.screen;
-screen;
-
-//working with browser location (adress bar)
-window.location;
-location;
-
-//setTimeout(function(){
-//    
-//    location.href = "http://www.google.com/"; //redirect
-//    
-//}, 5000);//nakon 5sc izvrsi ovu fju
-
-
-//DOM
-window.document
-
-
-<?php $this->inlineScript()->captureEnd(); ?>
+    
+    console.log(p1.predstaviSe());
+    console.log(p2.predstaviSe());
+    console.log(p3.predstaviSe());
+    console.log(p4.predstaviSe());
+    
+    //master objekat// sve sto se stavi pod var smatra se da je od window objekta
+    window;
+    
+    //working with browser window location (address bar)
+    window.screen;
+    screen;
+    
+    window.location;
+    
+    //setTimeout - execute function after 5000 miliseconds odnosno 5 sekundi
+    //
+    /*setTimeout(function(){
+        location.href = "http://www.google.com/"; //kod za preusmeravanje JS-a na neku drugu adresu
+    }, 5000); */
+    
+    
+    //
+    window.document;
+    document;
+    
+    
+    <?php $this->inlineScript()->captureEnd();?>
 </script>
-
-
-
- 
-
