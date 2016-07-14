@@ -46,9 +46,40 @@ class Application_Model_DbTable_CmsServices extends Zend_Db_Table_Abstract
         $id = $this->insert($service);
         
         return $id;
+         
+    }
+    
+     /**
+     * 
+     * @param int $id ID of member to delete
+     */
+    public function deleteService($id){
+        
+        $this->delete('id = ' . $id );
         
         
+    }
+    
+    /**
+     * 
+     * @param nt $id ID of member to enable
+     */
+    public function disableService($id){
         
+        $this->update(array(
+            'status'=>  self::STATUS_DISABLED
+        ),'id = ' .$id);
+    }
+    
+    /**
+     * 
+     * @param nt $id ID of member to enable
+     */
+     public function enableService($id){
+        
+        $this->update(array(
+            'status'=>  self::STATUS_ENABLED
+        ),'id = ' .$id);
     }
         
 }

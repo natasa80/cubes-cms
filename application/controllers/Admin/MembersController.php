@@ -348,7 +348,7 @@ class Admin_MembersController extends Zend_Controller_Action {
 
            }
            
-           $cmsMembersTable->enableMemberMember($id);
+           $cmsMembersTable->enableMember($id);
         
         
             $flashMessenger->addMessage('Member: ' . $member['first_name'] . ' ' .$member['last_name'] . 'has been enabled', 'success');
