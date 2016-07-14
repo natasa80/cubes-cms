@@ -58,7 +58,7 @@ $this->headTitle('Services');
 									<a 
                                                                             href="<?php echo $this->url(array('controller' => 'admin_services', 'action' => 'edit', 'id' => $service['id']), 'default', true); ?>" 
                                                                            type="button" class="btn btn-default" title="edit"><i class="glyphicon glyphicon-pencil"></i></a>
-									<button data-serviceName="<?php echo $this->escape($service['title']);?>" data-serviceEnable="<?php echo $this->escape($service['id']);?>" type="button" class="btn btn-default" title="enable" data-action="enable"><i class="glyphicon glyphicon-ok"></i></button>
+									<button data-serviceName="<?php echo $this->escape($service['title']);?>" data-serviceId="<?php echo $this->escape($service['id']);?>" type="button" class="btn btn-default" title="enable" data-action="enable"><i class="glyphicon glyphicon-ok"></i></button>
 
                                                                         <button data-serviceName="<?php echo $this->escape($service['title']);?>" data-serviceId="<?php echo $this->escape($service['id']);?>" data-action="delete" type="button" class="btn btn-default" title="delete"><i class="glyphicon glyphicon-trash"></i></button>
                                                                         
@@ -84,7 +84,7 @@ $this->headTitle('Services');
 									<a 
                                                                             href="<?php echo $this->url(array('controller' => 'admin_services', 'action' => 'edit', 'id' => $service['id']), 'default', true); ?>"
                                                                             type="button" class="btn btn-default" title="edit"><i class="glyphicon glyphicon-pencil"></i></a>
-									<button data-serviceName="<?php echo $this->escape($service['title']);?>" data-serviceDisable="<?php echo $this->escape($service['id']);?>" type="button" class="btn btn-default" title="disable" data-action="disable"><i class="glyphicon glyphicon-remove"></i></button>
+									<button data-serviceName="<?php echo $this->escape($service['title']);?>" data-serviceId="<?php echo $this->escape($service['id']);?>" type="button" class="btn btn-default" title="disable" data-action="disable"><i class="glyphicon glyphicon-remove"></i></button>
                                                                         <button data-serviceName="<?php echo $this->escape($service['title']);?>" data-serviceId="<?php echo $this->escape($service['id']);?>" data-action="delete" type="button" class="btn btn-default" title="delete"><i class="glyphicon glyphicon-trash"></i></button>
 								</div>
 							</td>
@@ -206,15 +206,15 @@ $('#rows-table').on('click', '[data-action="disable"]', function(e){
         //calculate target element
         var target = $(this).is('[data-action="disable"]') ? $(this) : $(this).closest('[data-action="disable"]');
         
-        var serviceDisable = target.attr('data-serviceDisable');
+        var serviceId = target.attr('data-serviceId');
      
-        $('#disable-warning-dialog').find('[name="id"]').val(serviceDisable);
+        $('#disable-warning-dialog').find('[name="id"]').val(serviceId);
        
         $('#disable-warning-dialog').modal('show'); 
         
          var serviceData = target.attr('data-serviceName');
         $('.service').text(serviceData);
-        to
+        
     });
     
          $('#rows-table').on('click', '[data-action="enable"]', function(e){
@@ -225,9 +225,9 @@ $('#rows-table').on('click', '[data-action="disable"]', function(e){
         //calculate target element
         var target = $(this).is('[data-action="enable"]') ? $(this) : $(this).closest('[data-action="enable"]');
         
-        var serviceEnable = target.attr('data-serviceEnable');
+        var serviceId = target.attr('data-serviceId');
       
-        $('#enable-warning-dialog').find('[name="id"]').val(serviceEnable);
+        $('#enable-warning-dialog').find('[name="id"]').val(serviceId);
        
         $('#enable-warning-dialog').modal('show');
         
