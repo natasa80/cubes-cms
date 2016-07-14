@@ -185,8 +185,6 @@ class Admin_ServicesController extends Zend_Controller_Action {
          
          try {
              
-             
-             
             //read $_POST
            $id = (int) $request->getPost('id');
 
@@ -340,7 +338,7 @@ class Admin_ServicesController extends Zend_Controller_Action {
             $redirector = $this->getHelper('Redirector');
                 $redirector->setExit(true)
                         ->gotoRoute(array(
-                            'controller' => 'admin_service',
+                            'controller' => 'admin_services',
                             'action' => 'index'
                                 ), 'default', true);
              
