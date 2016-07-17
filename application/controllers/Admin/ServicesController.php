@@ -17,6 +17,7 @@ class Admin_ServicesController extends Zend_Controller_Action {
 
         //select je objekat klase Zend_Db_ Select
         $select = $cmsServicesDbTable->select();
+        $select->order('order_number');
 
 
 

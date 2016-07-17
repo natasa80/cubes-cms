@@ -52,7 +52,7 @@ $this->headTitle('Services');
                                                 if ($service['status'] == Application_Model_DbTable_CmsServices::STATUS_DISABLED){
                                                     ?>
                                                  
-                                            <tr class="danger">
+                                            <tr class="danger" data-service-id="<?php echo $this->escape($service['id']);?>" >
                                                         <td class="text-center"><i data-action="sort" class="glyphicon glyphicon-list" style="display: none; cursor:pointer;"></i></td>
                                                         <td class="text-center"><span><i class="<?php echo $this->escape($service['icon']); ?>"></i></span></td>
 							<td class="text-center"><span class="badge alert-danger" title="disabled"><i class="glyphicon glyphicon-remove"></i></span></td>
@@ -78,7 +78,7 @@ $this->headTitle('Services');
                                                 }else{
                                                  
                                                     ?>
-                                                    <tr>
+                                                    <tr data-service-id="<?php echo $this->escape($service['id']);?>" >
                                                         <td class="text-center"><i data-action="sort" class="glyphicon glyphicon-list" style="display: none; cursor:pointer;"></i></td>
                                                         <td class="text-center"><span><i class="<?php echo $this->escape($service['icon']); ?>"></i></span></td>
 							<td class="text-center"><span class="badge alert-success" title="enabled"><i class="glyphicon glyphicon-ok"></i></span></td>
@@ -329,10 +329,12 @@ $('#rows-table').on('click', '[data-action="disable"]', function(e){
         e.preventDefault();
         e.stopPropagation();
         
-    var memberSortedIds = $('#rows-table > tbody').sortable('toArray', {
+    var serviceSortedIds = $('#rows-table > tbody').sortable('toArray', {
         
         attribute: 'data-service-id'
         });
+        
+         alert(serviceSortedIds);
         
         //select save order form
         var saveOrderForm = $('#save-order-form');
@@ -340,7 +342,8 @@ $('#rows-table').on('click', '[data-action="disable"]', function(e){
         //find element with name "sorted_ids" in save form and set its value
         //with string wich are sorted ids separated with comma
         //ex. "12, 3, 4..."
-        saveOrderForm.find('[name="sorted_ids"]').val(memberSortedIds.join(','));
+        saveOrderForm.find('[name="sorted_ids"]').val(serviceSortedIds.join(','));
+       
         
        //trigerujemo submit
        saveOrderForm.trigger('submit');

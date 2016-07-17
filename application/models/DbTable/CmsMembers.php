@@ -91,6 +91,7 @@ class Application_Model_DbTable_CmsMembers extends Zend_Db_Table_Abstract {
         ),'id = ' .$id);
     }
     
+    
     public function updateMemberOfOrder($sortedIds){
         
         foreach ($sortedIds as $orderNumber => $id){
