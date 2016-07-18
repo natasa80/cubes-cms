@@ -60,11 +60,55 @@ class Admin_MembersController extends Zend_Controller_Action {
                 //get form data//vrednosti iz forme se uzimaju preko getVaues i upisuju u niz
                 //to su filtrirani i validirani podaci
                 $formData = $form->getValues();
+                
+                
+                //remove key memebr_photo from form data because there is no column memebr_photo in cms _members
+                unset($formData['member_photo']);
+                
 
 
                 //insertujemo zapis u bazu
                 $cmsMembersTable = new Application_Model_DbTable_CmsMembers();
-                $cmsMembersTable->insertMember($formData);
+                
+                //insert member returns ID of the new member
+                $memberId =  $cmsMembersTable->insertMember($formData);
+                
+                if($form->getElement('member_photo')->isUploaded()) {
+                    //photo is uploaded 
+                    
+                    $fileInfos = $form->getElement('member_photo')->getFileInfo('member_photo');
+                    $fileInfo = $fileInfos['member_photo'];
+                    //$fileInfo = $_FILES["member_photo"];
+                    
+                    
+                    try {
+                        //open uploaded photo in temporary directory
+                     $memberPhoto =  Intervention\Image\ImageManagerStatic::make($fileInfo['tmp_name']);
+                     
+                     $memberPhoto->fit(150, 150);
+                     $memberPhoto->save(PUBLIC_PATH . '/uploads/members/' . $memberId . '.jpg');
+                     
+                    } catch (Exception $ex) {
+                        
+                         $flashMessenger->addMessage('Member has been saved, but error occured during image processing', 'errors');
+
+                        //redirect to same or another page
+                        $redirector = $this->getHelper('Redirector');
+                        $redirector->setExit(true)
+                                ->gotoRoute(array(
+                                    'controller' => 'admin_members',
+                                    'action' => 'edit',
+                                    'id' => $memberId
+                                       ), 'default', true);
+                        
+                    }
+
+                    
+                    
+                    
+                }
+                
+                
                 // do actual task
                 //save to database etc
                 //set system message
@@ -135,12 +179,37 @@ class Admin_MembersController extends Zend_Controller_Action {
                     throw new Application_Model_Exception_InvalidInput('Invalid data was sent for  member' );
                 }
 
-                //get form data//vrednosti iz forme se uzimaju preko getVaues i upisuju u niz
-                //to su filtrirani i validirani podaci
+                
                 $formData = $form->getValues();
+                unset($formData['member_photo']);
+                
+                if($form->getElement('member_photo')->isUploaded()) {
+                    //photo is uploaded 
+                    
+                    $fileInfos = $form->getElement('member_photo')->getFileInfo('member_photo');
+                    $fileInfo = $fileInfos['member_photo'];
+                    //$fileInfo = $_FILES["member_photo"];
+                    
+                    
+                    try {
+                        //open uploaded photo in temporary directory
+                     $memberPhoto =  Intervention\Image\ImageManagerStatic::make($fileInfo['tmp_name']);
+                     
+                     $memberPhoto->fit(150, 150);
+                     
+                     $memberPhoto->save(PUBLIC_PATH . '/uploads/members/' . $member['id'] . '.jpg');
+                     
+                    } catch (Exception $ex) {
+                        
+                        throw new Application_Model_Exception_InvalidInput('Error occured during image processing');
+                      
+                    }
 
-
-                //iUpdate postojeceg zapisa u tabeli
+                    
+                    
+                    
+                }
+               
                 
                 $cmsMembersTable->updateMember($member['id'], $formData);
                 

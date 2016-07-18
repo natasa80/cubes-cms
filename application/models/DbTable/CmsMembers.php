@@ -43,38 +43,28 @@ class Application_Model_DbTable_CmsMembers extends Zend_Db_Table_Abstract {
      * @param array $member
      * @return int The new ID of new member (autoincrement)
      */
-//    public function insertMember($member){
-//        //fetch order number for new member
-//        
-//        $id = $this->insert($member);
-//        
-//        return $id;
-//       
-//    }
-
-
 
     public function insertMember($member) {
-
-        $maxOrderNumber = new Zend_Db_Expr('MAX(order_number) as order_number');
-
-        $select = $this->select()
-                ->from(array(
-            'cms_members' => 'cms_members'), $maxOrderNumber);
-
-
-        $row = $this->fetchRow($select);
-
-        if (empty($row)) {
-
-            return FALSE;
+        
+        
+        $select = $this->select();
+        
+        //Sort rows by order_number DESC and fets=ch row from the top
+        //with biggest order number
+        $select->order('order_number DESC');
+        
+        $memebrWithBiggestOrderNumber = $this->fetchRow($select);
+        
+        
+        
+        if ($memebrWithBiggestOrderNumber instanceof Zend_Db_Table_Row) {
+            
+            $member['order_number'] = $memebrWithBiggestOrderNumber['order_number'] +1;
         } else {
-            $rowData = $row->toArray();
+            //table was empty, we are inserting first member
+            $member['order_number'] = 1;
         }
-
-        $newOrderNumber = $rowData['order_number'] + 1;
-
-        $member[order_number] = $newOrderNumber;
+        
         $id = $this->insert($member);
 
         return $id;
@@ -85,45 +75,16 @@ class Application_Model_DbTable_CmsMembers extends Zend_Db_Table_Abstract {
      * @param int $id ID of member to delete
      */
     public function deleteMember($id) {
+        
+        
+        //member to delete
+        $member = $this->getMemberById($id);
+        
+        $this->update(array(
+            'order_number' => new Zend_Db_Expr('order_number -1')
+        ),
+             'order_number > ' . $member['order_number']);
 
-        //dobijamo zeljeni red sa ID-jem koji se brise
-        $select = $this->select();
-        $select->where('id =?', $id);
-
-        $row = $this->fetchRow($select);
-
-        if ($row instanceof Zend_Db_Table_Row) {
-
-            $row->toArray();
-        } else {
-            return null;
-        }
-
-        //dobijamo order number od ID-ja koji se brise
-        $orderDeleted = $row['order_number'];
-        // print_r($orderDeleted);
-
-        $select = $this->select();
-        $select->where('order_number > ?', $orderDeleted);
-
-        //dobijamo sve kolone koje zadovoljavaju uslov
-        $rows = $this->fetchAll($select);
-        // print_r($rows);
-
-        if (empty($rows)) {
-            return FALSE;
-        } else {
-            $rowsData = $rows->toArray();
-        }
-        // print_r($rowsData);
-
-
-        foreach ($rowsData as $row) {
-
-            $this->update(array(
-                'order_number' => $row['order_number'] - 1
-                    ), 'id= ' . $row['id']);
-        }
 
         $this->delete('id = ' . $id);
     }
@@ -150,6 +111,10 @@ class Application_Model_DbTable_CmsMembers extends Zend_Db_Table_Abstract {
                 ), 'id = ' . $id);
     }
 
+    
+    
+    
+    
     public function updateMemberOfOrder($sortedIds) {
 
         foreach ($sortedIds as $orderNumber => $id) {
@@ -159,5 +124,8 @@ class Application_Model_DbTable_CmsMembers extends Zend_Db_Table_Abstract {
                     ), 'id = ' . $id);
         }
     }
+    
+    
+    
 
 }
