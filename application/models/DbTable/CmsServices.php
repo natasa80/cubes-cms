@@ -43,70 +43,45 @@ class Application_Model_DbTable_CmsServices extends Zend_Db_Table_Abstract {
     
       public function insertService($service){
         
-        $maxOrderNumber = new Zend_Db_Expr('MAX(order_number) as order_number');
-        $select = $this->select()
-                    ->from(array(
-                        'cms_services' => 'cms_services'),$maxOrderNumber );
+          
+        $select = $this->select();
         
-        $row = $this->fetchRow($select);
+        //Sort rows by order_number DESC and fets=ch row from the top
+        //with biggest order number
+        $select->order('order_number DESC');
         
-       if(empty($row)){
-           
-           return FALSE;
-       }else{
-           $rowData = $row->toArray();
-       }
-       
-       $newOrderNumber = $rowData['order_number']+1;
-       
-       $service[order_number] = $newOrderNumber;
-       $id = $this->insert($service);
-       
-       return $id;
-       
+        $serviceWithBiggestOrderNumber = $this->fetchRow($select);
         
-    }
+        
+        
+        if ($serviceWithBiggestOrderNumber instanceof Zend_Db_Table_Row) {
+            
+            $service['order_number'] = $serviceWithBiggestOrderNumber['order_number'] +1;
+        } else {
+            //table was empty, we are inserting first member
+            $service['order_number'] = 1;
+        }
+        
+        $id = $this->insert($service);
+
+        return $id;
+        
+        
+        }
     /**
      * 
      * @param int $id ID of member to delete
      */
    public function deleteService($id) {
 
-        //dobijamo zeljeni red sa ID-jem koji se brise
-        $select = $this->select();
-        $select->where('id =?', $id);
-
-        $row = $this->fetchRow($select);
-
-        if ($row instanceof Zend_Db_Table_Row) {
-
-            $row->toArray();
-        } else {
-            return null;
-        }
-
-        //dobijamo order number od ID-ja koji se brise
-        $orderDeleted = $row['order_number'];
-       
-
-        $select = $this->select();
-        $select->where('order_number > ?', $orderDeleted);
-
-        //dobijamo sve kolone koje zadovoljavaju uslov
-        $rows = $this->fetchAll($select);
+         //member to delete
+        $service = $this->getServiceById($id);
         
-        if (empty($rows)) {
-            return FALSE;
-        } else {
-            $rowsData = $rows->toArray();
-        }
-       
-        foreach ($rowsData as $row) {
+        $this->update(array(
+            'order_number' => new Zend_Db_Expr('order_number -1')
+        ),
+             'order_number > ' . $service['order_number']);
 
-            $this->update(array(
-                'order_number' => $row['order_number'] - 1
-                    ), 'id= ' . $row['id']);
-        }
 
         $this->delete('id = ' . $id);
     }
