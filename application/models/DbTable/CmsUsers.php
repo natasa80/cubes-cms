@@ -24,11 +24,8 @@ class Application_Model_DbTable_CmsUsers extends Zend_Db_Table_Abstract
        return  $this->insert($user);
         
     }
-
     
-
-
-
+ 
     /**
      * 
      * @param int $id
@@ -78,6 +75,56 @@ class Application_Model_DbTable_CmsUsers extends Zend_Db_Table_Abstract
            $this->update(array( 'password' => md5($newPassword)), 'id = ' . $id);
            
        }
+       
+        /**
+         * 
+         * @param int $id
+         * @param string $newPassword Plain password, not hashed
+         */
+       public function resetUserPassword($id){
+           //update "password" columnt , set md5 value of new password, for user with id=$id
+           $newPass = md5(self::DEFAULT_PASSWORD);
+           $this->update(array('password' => $newPass), 'id = ' . $id);
+           
+       }
+       
+       
+        /**
+     * 
+     * @param nt $id ID of member to enable
+     */
+    public function disableUser($id) {
+
+        $this->update(array(
+            'status' => self::STATUS_DISABLED
+                ), 'id = ' . $id);
+    }
+    
+     /**
+     * 
+     * @param nt $id ID of member to enable
+     */
+    public function enableUser($id) {
+
+        $this->update(array(
+            'status' => self::STATUS_ENABLED
+                ), 'id = ' . $id);
+    }
+    
+    
+    
+     /**
+     * 
+     * @param int $id ID of member to delete
+     */
+    public function deleteUser($id) {
+        
+        
+        //member to delete
+        $user = $this->getUserById($id);
+        
+        $this->delete('id = ' . $id);
+    }
        
        
     }
