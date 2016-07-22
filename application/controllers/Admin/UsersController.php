@@ -13,13 +13,26 @@ class Admin_UsersController extends Zend_Controller_Action {
 
 
         $cmsUsersDbTable = new Application_Model_DbTable_CmsUsers();
-
-        $users = $cmsUsersDbTable->fetchAll()->toArray();
+        
+        $loggedInUser = Zend_Auth::getInstance()->getIdentity();
+        
+        $users = $cmsUsersDbTable->search(array(
+            'filters' => array(
+                'id_exclude' => $loggedInUser['id']
+            ),
+            'orders' =>array(
+                'first_name' =>'ASC'
+            ),
+//            'limit' =>3,
+//            'page' => 2
+        ));
 
         $this->view->users = $users;
         $this->view->systemMessages = $systemMessages;
     }
 
+    
+    //ADD
     public function addAction() {
 
         $request = $this->getRequest(); //podaci iz url-a iz forme koje dobijemo
@@ -73,6 +86,9 @@ class Admin_UsersController extends Zend_Controller_Action {
         $this->view->form = $form;
     }
 
+    
+    
+    //EDIT
     public function editAction() {
 
         $request = $this->getRequest();
@@ -156,6 +172,8 @@ class Admin_UsersController extends Zend_Controller_Action {
         $this->view->user = $user;
     }
 
+    
+    //DISABLE
     public function disableAction() {
 
         $request = $this->getRequest();
@@ -228,6 +246,8 @@ class Admin_UsersController extends Zend_Controller_Action {
         }
     }
 
+    
+    //ENABLE
     public function enableAction() {
 
         $request = $this->getRequest();
@@ -303,6 +323,7 @@ class Admin_UsersController extends Zend_Controller_Action {
     
     
     
+    //DELETE
      public function deleteAction(){
       
          $request = $this->getRequest();
@@ -368,7 +389,7 @@ class Admin_UsersController extends Zend_Controller_Action {
 
     }
 
-    
+    //RESET PASSWORD
       public function resetpasswordAction() {
 
         $request = $this->getRequest();
