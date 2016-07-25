@@ -189,7 +189,7 @@ class Application_Model_DbTable_CmsUsers extends Zend_Db_Table_Abstract {
 
             //da proverimo koji nam se query izvrsava
             //die($select->assemble());
-
+        //ovde dobijamo niz sa upitom
         return $this->fetchAll($select)->toArray();
     }
 
