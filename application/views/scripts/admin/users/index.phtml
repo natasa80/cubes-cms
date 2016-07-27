@@ -191,7 +191,7 @@ $this->headTitle('Users');
     <?php
     //CSS
     $this->headLink()->appendStylesheet($this->baseUrl('/admin/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css'));
-    $this->headLink()->appendStylesheet($this->baseUrl('/admin/bower_components/datatables-responsive/css/dataTables.responsive.css'));
+    //$this->headLink()->appendStylesheet($this->baseUrl('/admin/bower_components/datatables-responsive/css/dataTables.responsive.css'));
     //JS
     $this->inlineScript()->appendFile($this->baseUrl('/admin/bower_components/datatables/media/js/jquery.dataTables.min.js'));
     $this->inlineScript()->appendFile($this->baseUrl('/admin/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js'));
@@ -297,13 +297,16 @@ $this->headTitle('Users');
      
      $('#rows-table').dataTable({
          //ovo je niz u kom definisemo na koje mi se kolone odnose podesavanja
-         columnDefs: [
-             {targets: [0,5], orderable: false, searchable: false}//ove kolone nece da sortira   
+        columnDefs: [
+             {targets: [5], orderable: false, searchable: false}//ove kolone nece da sortira   
          ],
-         order: [
+        order: [
              [2, 'asc']
          ],
-         lengthMenu: [3, 5, 10, 20, 50, 100]
+        lengthMenu: [3, 5, 10, 20, 50, 100],
+        serverSide: true,
+        processing: true,
+        ajax: '<?php echo $this->url(array('controller' => 'admin_users', 'action'=> 'datatable'),'default', true);?>',
      });
      
     <?php $this->inlineScript()->captureEnd();?> 

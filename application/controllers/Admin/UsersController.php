@@ -12,26 +12,12 @@ class Admin_UsersController extends Zend_Controller_Action {
         );
 
 
-        $cmsUsersDbTable = new Application_Model_DbTable_CmsUsers();
         
-        $loggedInUser = Zend_Auth::getInstance()->getIdentity();
-        
-        $users = $cmsUsersDbTable->search(array(
-            'filters' => array(
-                'id_exclude' => $loggedInUser['id']
-            ),
-            'orders' =>array(
-                'first_name' =>'ASC'
-            ),
-//            'limit' =>3,
-//            'page' => 2
-        ));
 
-        $this->view->users = $users;
+        $this->view->users = array();
         $this->view->systemMessages = $systemMessages;
     }
 
-    
     //ADD
     public function addAction() {
 
@@ -86,8 +72,6 @@ class Admin_UsersController extends Zend_Controller_Action {
         $this->view->form = $form;
     }
 
-    
-    
     //EDIT
     public function editAction() {
 
@@ -172,7 +156,6 @@ class Admin_UsersController extends Zend_Controller_Action {
         $this->view->user = $user;
     }
 
-    
     //DISABLE
     public function disableAction() {
 
@@ -246,7 +229,6 @@ class Admin_UsersController extends Zend_Controller_Action {
         }
     }
 
-    
     //ENABLE
     public function enableAction() {
 
@@ -320,77 +302,72 @@ class Admin_UsersController extends Zend_Controller_Action {
                             ), 'default', true);
         }
     }
-    
-    
-    
+
     //DELETE
-     public function deleteAction(){
-      
-         $request = $this->getRequest();
-         
-         if(!$request->isPost()|| $request->getPost('task') != 'delete'){
-             
-          
-             
-             $redirector = $this->getHelper('Redirector');
-                $redirector->setExit(true)
-                        ->gotoRoute(array(
-                            'controller' => 'admin_users',
-                            'action' => 'index'
-                                ), 'default', true);
-         }
-         
-         $flashMessenger = $this->getHelper('FlashMessenger');
-         
-         try {
-             
+    public function deleteAction() {
+
+        $request = $this->getRequest();
+
+        if (!$request->isPost() || $request->getPost('task') != 'delete') {
+
+
+
+            $redirector = $this->getHelper('Redirector');
+            $redirector->setExit(true)
+                    ->gotoRoute(array(
+                        'controller' => 'admin_users',
+                        'action' => 'index'
+                            ), 'default', true);
+        }
+
+        $flashMessenger = $this->getHelper('FlashMessenger');
+
+        try {
+
             //read $_POST
-           $id = (int) $request->getPost('id');
+            $id = (int) $request->getPost('id');
 
 
-           if ($id <= 0) {
-               throw new Application_Model_Exception_InvalidInput('Invalid user id: ' . $id, 'errors');
-           }
+            if ($id <= 0) {
+                throw new Application_Model_Exception_InvalidInput('Invalid user id: ' . $id, 'errors');
+            }
 
-           $cmsUsersTable = new Application_Model_DbTable_CmsUsers();
-           $user = $cmsUsersTable->getUserById($id);
+            $cmsUsersTable = new Application_Model_DbTable_CmsUsers();
+            $user = $cmsUsersTable->getUserById($id);
 
-           if (empty($user)) {
+            if (empty($user)) {
 
-               throw new Application_Model_Exception_InvalidInput('No user is found with id: ' . $id, 'errors');
+                throw new Application_Model_Exception_InvalidInput('No user is found with id: ' . $id, 'errors');
+            }
 
-           }
-           
-           $cmsUsersTable->deleteUser($id);
-        
-        
-            $flashMessenger->addMessage('User: ' . $user['first_name'] . ' ' .$user['last_name'] . 'has been deleted', 'success');
-            
+            $cmsUsersTable->deleteUser($id);
+
+
+            $flashMessenger->addMessage('User: ' . $user['first_name'] . ' ' . $user['last_name'] . 'has been deleted', 'success');
+
             //redirect on another page
             $redirector = $this->getHelper('Redirector');
-                $redirector->setExit(true)
-                        ->gotoRoute(array(
-                            'controller' => 'admin_users',
-                            'action' => 'index'
-                                ), 'default', true);
-             
-         } catch (Application_Model_Exception_InvalidInput $ex) {
-             
-             $flashMessenger->addMessage($ex->getMessage(), 'errors');
-            
+            $redirector->setExit(true)
+                    ->gotoRoute(array(
+                        'controller' => 'admin_users',
+                        'action' => 'index'
+                            ), 'default', true);
+        } catch (Application_Model_Exception_InvalidInput $ex) {
+
+            $flashMessenger->addMessage($ex->getMessage(), 'errors');
+
             //redirect on another page
             $redirector = $this->getHelper('Redirector');
-                $redirector->setExit(true)
-                        ->gotoRoute(array(
-                            'controller' => 'admin_users',
-                            'action' => 'index'
-                                ), 'default', true);
-         }
-
+            $redirector->setExit(true)
+                    ->gotoRoute(array(
+                        'controller' => 'admin_users',
+                        'action' => 'index'
+                            ), 'default', true);
+        }
     }
 
     //RESET PASSWORD
-      public function resetpasswordAction() {
+    public function resetpasswordAction() {
 
         $request = $this->getRequest();
 
@@ -400,21 +377,21 @@ class Admin_UsersController extends Zend_Controller_Action {
             //prekida se izvrsavanje proograma i prikazuje se page not found
             throw new Zend_Controller_Router_Exception('Invalid user id: ' . $id, 404);
         }
-        
-        
-           $loggedinUser = Zend_Auth::getInstance()->getIdentity();
 
-            if ($id == $loggedinUser['id']) {
-                //redirect user to edit profile page
-                $redirector = $this->getHelper('Redirector');
-                $redirector->setExit(true)
-                        ->gotoRoute(array(
-                            'controller' => 'admin_profile',
-                            'action' => 'changepassword'
-                                ), 'default', true);
-            }
- 
-        
+
+        $loggedinUser = Zend_Auth::getInstance()->getIdentity();
+
+        if ($id == $loggedinUser['id']) {
+            //redirect user to edit profile page
+            $redirector = $this->getHelper('Redirector');
+            $redirector->setExit(true)
+                    ->gotoRoute(array(
+                        'controller' => 'admin_profile',
+                        'action' => 'changepassword'
+                            ), 'default', true);
+        }
+
+
         $cmsUsersTable = new Application_Model_DbTable_CmsUsers();
         $user = $cmsUsersTable->getUserById($id);
 
@@ -431,28 +408,152 @@ class Admin_UsersController extends Zend_Controller_Action {
             'errors' => $flashMessenger->getMessages('errors'),
         );
 
-        
+
 
         if ($request->isPost() && $request->getPost('task') === 'resetpassword') {
-            
-                $cmsUsersTable->resetUserPassword($user['id']);
 
-              
-                $flashMessenger->addMessage('Password has been updated', 'success');
+            $cmsUsersTable->resetUserPassword($user['id']);
 
-                //redirect to same or another page
-                $redirector = $this->getHelper('Redirector');
-                $redirector->setExit(true)
-                        ->gotoRoute(array(
-                            'controller' => 'admin_users',
-                            'action' => 'index'
-                                ), 'default', true);
-            } 
-        
+
+            $flashMessenger->addMessage('Password has been updated', 'success');
+
+            //redirect to same or another page
+            $redirector = $this->getHelper('Redirector');
+            $redirector->setExit(true)
+                    ->gotoRoute(array(
+                        'controller' => 'admin_users',
+                        'action' => 'index'
+                            ), 'default', true);
+        }
+
 
         $this->view->systemMessages = $systemMessages;
         $this->view->form = $form;
 
         $this->view->user = $user;
     }
+
+    public function datatableAction() {
+
+        $request = $this->getRequest();
+        //dohvatamo sve parametre koji su poslati 
+        $datatableParameters = $request->getParams();
+
+
+
+
+        /*
+
+          Array
+          (
+          [controller] => admin_users
+          [action] => datatable
+          [module] => default
+
+          [draw] => 2
+
+          [order] => Array
+          (
+          [0] => Array
+          (
+          [column] => 2
+          [dir] => asc
+          )
+
+          )
+
+          [start] => 0
+          [length] => 5
+          [search] => Array
+          (
+          [value] =>
+          [regex] => false
+          )
+
+          )
+
+         */
+
+        $cmsUsersTable = new Application_Model_DbTable_CmsUsers();
+
+        //defaultne vrednosti
+        $loggedInUser = Zend_Auth::getInstance()->getIdentity();
+
+        $filters = array(
+            'id_exclude' => $loggedInUser
+        );
+        
+        $orders = array();
+        $limit = 5;
+        $page = 1;
+        $draw = 1;
+
+        //mora biti osti raspored kao i u view scripti 
+        $columns = array('status', 'username', 'first_name', 'last_name', 'email', 'actions');
+
+
+        //Process datateble parameters
+
+        if (isset($datatableParameters['draw'])) {
+
+            $draw = $datatableParameters['draw'];
+
+            if (isset($datatableParameters['length'])) {
+
+                $limit = $datatableParameters['length'];
+
+
+                if (isset($datatableParameters['start'])) {
+                    $page = floor($datatableParameters['start'] / $datatableParameters['length']) + 1;
+                }
+            }
+        }
+
+
+
+        if (
+                isset($datatableParameters['order']) && is_array($datatableParameters['order'])
+        ) {
+
+            foreach ($datatableParameters['order'] as $dataTableOrder) {
+
+                $columnIndex = $dataTableOrder['column'];
+                $orderDirection = strtoupper($dataTableOrder['dir']);
+
+                if (isset($columns[$columnIndex])) {
+                    $orders[$columns[$columnIndex]] = $orderDirection;
+                }
+            }
+        }
+        
+        
+        if(
+          isset($datatableParameters['search'])
+           && is_array($datatableParameters['search'])
+           && isset($datatableParameters['search']['value'])
+                ){
+             $filters['username_search'] = $datatableParameters['search']['value'];
+                }
+
+
+
+        $users = $cmsUsersTable->search(array(
+            'filters' => $filters,
+            'orders' => $orders,
+            'limit' => $limit,
+            'page' => $page
+        ));
+
+
+        //prikazuju  se samo 
+        $usersFilteredCount = $cmsUsersTable->count($filters);
+        $usersTotal = $cmsUsersTable->count();
+
+        $this->view->users = $users;
+        $this->view->usersFilteredCount = $usersFilteredCount;
+        $this->view->usersTotal = $usersTotal;
+        $this->view->draw = $draw;
+        $this->view->columns = $columns;
+    }
+
 }

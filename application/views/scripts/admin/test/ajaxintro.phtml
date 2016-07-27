@@ -39,7 +39,7 @@ Zend_Layout::getMvcInstance()->disableLayout();
 
                 var target = $(this).is('#car-brand') ? $(this) : $(this).closest('#car-brand');
 
-
+                //brand je vrednpst koju cuva select element
                 var brand = target.val();
                 var modelSelect = $('#car-model');
 
@@ -51,8 +51,13 @@ Zend_Layout::getMvcInstance()->disableLayout();
 
                 if (brand) {
                     $.ajax({
-                        url: '/uploads/cars/' + brand + '.json',
-                        cache: false
+                        url: '<?php echo $this->url(array('controller' => 'admin_test', 'action'=> 'ajaxmodels'), 'default', true); ?>',
+                        //ovako prosledjujemo parametre i njihove vrednosti
+                        data: {
+                            "brand": brand 
+                        },
+                        method: "get",// default - get, promenimo ako koristimo post
+                        cache: false  //koristimo da bi smo ucitavali najsvezije podatke bez kesiranja
 
                     }).done(function (data) {
                      
@@ -60,10 +65,10 @@ Zend_Layout::getMvcInstance()->disableLayout();
                         for (var index in data) {
                             var model = data[index];
 
-                            var selectOption = $('<option></option>');
+                            var selectOption = $('<option></option>');//ovde smo def na koji se element odnosi js
                             selectOption.attr('value', model.value);
 
-                            selectOption.html(model.label);
+                            selectOption.text(model.label);
 
                             modelSelect.append(selectOption);
 
