@@ -10,17 +10,17 @@
 
     </div>
 
-    <div class="col-lg-3 col-md-6" id="client">
-
-    </div>
-
-
     <div class="col-lg-3 col-md-6" id="service">
 
     </div>
 
 
     <div class="col-lg-3 col-md-6" id="user">
+
+    </div>
+
+
+    <div class="col-lg-3 col-md-6" id="client">
 
     </div>
 </div>
@@ -34,23 +34,6 @@
     }).done(function (data) {
 
         var element = $('#member');
-
-        element.append(data);
-
-
-    }).fail(function () {
-        alert('Unable to load models for brand');
-    }).always(function () {
-
-    });
-
-    $.ajax({
-        url: '<?php echo $this->url(array('controller' => 'admin_clients', 'action' => 'dashboard'), 'default', true); ?>',
-        cache: false
-
-    }).done(function (data) {
-
-        var element = $('#client');
 
         element.append(data);
 
@@ -85,6 +68,23 @@
     }).done(function (data) {
 
         var element = $('#user');
+
+        element.append(data);
+
+
+    }).fail(function () {
+        alert('Unable to load models for brand');
+    }).always(function () {
+
+    });
+
+    $.ajax({
+        url: '<?php echo $this->url(array('controller' => 'admin_clients', 'action' => 'dashboard'), 'default', true); ?>',
+        cache: false
+
+    }).done(function (data) {
+
+        var element = $('#client');
 
         element.append(data);
 
