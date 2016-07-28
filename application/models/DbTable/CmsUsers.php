@@ -298,5 +298,28 @@ class Application_Model_DbTable_CmsUsers extends Zend_Db_Table_Abstract {
             }
         }
     }
+    
+    
+     public function activeUsers($users) {
+       
+        $activeUsers = 0; 
+        foreach ($users as $user) {
+            if ($users['status'] == self::STATUS_ENABLED) {
+                $activeUsers ++;
+            }
+        }
+
+        return $activeUsers;
+    }
+    
+     public function totalClients($users) {
+        $totalNumberOfUsers =0;
+        
+        foreach ($users as $user){
+            $totalNumberOfUsers ++;
+        }
+        
+        return $totalNumberOfUsers ;
+    }
 
 }

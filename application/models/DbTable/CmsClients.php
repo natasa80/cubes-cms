@@ -122,5 +122,39 @@ class Application_Model_DbTable_CmsClients extends Zend_Db_Table_Abstract{
     }
     
     
+       /**
+     * 
+     * @param array $members
+     * @return int number of active members
+     */
+    public function activeClients($clients) {
+       
+        $activeClients = 0; 
+        foreach ($clients as $client) {
+            if ($clients['status'] == self::STATUS_ENABLED) {
+                $activeClients ++;
+            }
+        }
+
+        return $activeClients;
+    }
+    
+    
+    /**
+     * 
+     * @param array $members
+     * @return int total number of members
+     */
+    public function totalClients($clients) {
+        $totalNumberOfClients =0;
+        
+        foreach ($clients as $client){
+            $totalNumberOfClients ++;
+        }
+        
+        return $totalNumberOfClients ;
+    }
+    
+    
 }
 

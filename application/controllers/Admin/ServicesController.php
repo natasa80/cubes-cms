@@ -434,4 +434,26 @@ class Admin_ServicesController extends Zend_Controller_Action {
 
 }
 
+
+
+ public function dashboardAction() {
+        
+        $activeServices =0;
+        $totalNumberOfServices = 0;
+        
+        $cmsServicesDbTable = new Application_Model_DbTable_CmsServices();
+        $select = $cmsServicesDbTable->select();
+        $services = $cmsServicesDbTable->fetchAll($select);
+        
+        $activeServices = $cmsServicesDbTable->activeServices($services);
+        $totalNumberOfServices =$cmsServicesDbTable->totalServices($services);
+       
+       
+                
+        $this->view->activeServices = $activeServices;
+        $this->view->totalNumberOfServices = $totalNumberOfServices;
+        $this->view->services = $services;
+      
+    }
+
 }

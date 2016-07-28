@@ -43,28 +43,27 @@ class Application_Model_DbTable_CmsMembers extends Zend_Db_Table_Abstract {
      * @param array $member
      * @return int The new ID of new member (autoincrement)
      */
-
     public function insertMember($member) {
-        
-        
+
+
         $select = $this->select();
-        
+
         //Sort rows by order_number DESC and fets=ch row from the top
         //with biggest order number
         $select->order('order_number DESC');
-        
+
         $memebrWithBiggestOrderNumber = $this->fetchRow($select);
-        
-        
-        
+
+
+
         if ($memebrWithBiggestOrderNumber instanceof Zend_Db_Table_Row) {
-            
-            $member['order_number'] = $memebrWithBiggestOrderNumber['order_number'] +1;
+
+            $member['order_number'] = $memebrWithBiggestOrderNumber['order_number'] + 1;
         } else {
             //table was empty, we are inserting first member
             $member['order_number'] = 1;
         }
-        
+
         $id = $this->insert($member);
 
         return $id;
@@ -75,20 +74,19 @@ class Application_Model_DbTable_CmsMembers extends Zend_Db_Table_Abstract {
      * @param int $id ID of member to delete
      */
     public function deleteMember($id) {
-        
+
         $memberPhotoFilePath = PUBLIC_PATH . '/uploads/members/' . $id . '.jpg';
-        
-        if(is_file($memberPhotoFilePath)){
+
+        if (is_file($memberPhotoFilePath)) {
             unlink($memberPhotoFilePath);
         }
-        
+
         //member to delete
         $member = $this->getMemberById($id);
-        
+
         $this->update(array(
             'order_number' => new Zend_Db_Expr('order_number -1')
-        ),
-             'order_number > ' . $member['order_number']);
+                ), 'order_number > ' . $member['order_number']);
 
 
         $this->delete('id = ' . $id);
@@ -116,10 +114,6 @@ class Application_Model_DbTable_CmsMembers extends Zend_Db_Table_Abstract {
                 ), 'id = ' . $id);
     }
 
-    
-    
-    
-    
     public function updateMemberOfOrder($sortedIds) {
 
         foreach ($sortedIds as $orderNumber => $id) {
@@ -132,5 +126,37 @@ class Application_Model_DbTable_CmsMembers extends Zend_Db_Table_Abstract {
     
     
     
+    /**
+     * 
+     * @param array $members
+     * @return int number of active members
+     */
+    public function activeMembers($members) {
+        $activeMembers = 0;
+        foreach ($members as $member) {
+            if ($member['status'] == self::STATUS_ENABLED) {
+                $activeMembers ++;
+            }
+        }
+
+        return $activeMembers;
+    }
+    
+    
+    /**
+     * 
+     * @param array $members
+     * @return int total number of members
+     */
+    public function totalMembers( $members) {
+        $totalNumberOfMembers =0;
+        
+        foreach ($members as $member){
+            $totalNumberOfMembers ++;
+        }
+        
+        
+        return $totalNumberOfMembers ;
+    }
 
 }
