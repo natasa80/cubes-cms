@@ -122,21 +122,19 @@ class Application_Model_DbTable_CmsClients extends Zend_Db_Table_Abstract{
     }
     
     
-       /**
-     * 
-     * @param array $members
-     * @return int number of active members
-     */
+    
+    
+    
+    
     public function activeClients($clients) {
-       
-        $activeClients = 0; 
+        
+        $active = 0;
         foreach ($clients as $client) {
-            if ($clients['status'] == self::STATUS_ENABLED) {
-                $activeClients ++;
+            if ($client['status'] == self::STATUS_ENABLED) {
+                $active ++;
             }
         }
-
-        return $activeClients;
+        return $active;
     }
     
     
@@ -145,15 +143,17 @@ class Application_Model_DbTable_CmsClients extends Zend_Db_Table_Abstract{
      * @param array $members
      * @return int total number of members
      */
-    public function totalClients($clients) {
+    public function totalClients( $clients) {
         $totalNumberOfClients =0;
         
         foreach ($clients as $client){
             $totalNumberOfClients ++;
         }
         
+        
         return $totalNumberOfClients ;
     }
+
     
     
 }

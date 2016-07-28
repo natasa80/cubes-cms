@@ -304,7 +304,7 @@ class Application_Model_DbTable_CmsUsers extends Zend_Db_Table_Abstract {
        
         $activeUsers = 0; 
         foreach ($users as $user) {
-            if ($users['status'] == self::STATUS_ENABLED) {
+            if ($user['status'] == self::STATUS_ENABLED) {
                 $activeUsers ++;
             }
         }
@@ -312,7 +312,7 @@ class Application_Model_DbTable_CmsUsers extends Zend_Db_Table_Abstract {
         return $activeUsers;
     }
     
-     public function totalClients($users) {
+     public function totalUsers($users) {
         $totalNumberOfUsers =0;
         
         foreach ($users as $user){
