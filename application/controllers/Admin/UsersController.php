@@ -217,7 +217,7 @@ class Admin_UsersController extends Zend_Controller_Action {
 
                 $responseJson = array(
                     'status' => 'ok',
-                    'statusMessage' => 'User: ' . $user['first_name'] . ' ' . $user['last_name'] . 'has been disabled'
+                    'statusMessage' => 'User: ' . $user['first_name'] . ' ' . $user['last_name'] . ' has been disabled'
                 );
 
                 //send json as response
@@ -226,7 +226,7 @@ class Admin_UsersController extends Zend_Controller_Action {
                 //request is not ajax
                 //send message over session-flash message
                 //and do redirect
-                $flashMessenger->addMessage('User: ' . $user['first_name'] . ' ' . $user['last_name'] . 'has been disabled', 'success');
+                $flashMessenger->addMessage('User: ' . $user['first_name'] . ' ' . $user['last_name'] . ' has been disabled', 'success');
 
                 //redirect on another page
                 $redirector = $this->getHelper('Redirector');
@@ -320,14 +320,14 @@ class Admin_UsersController extends Zend_Controller_Action {
                 //ukoiko je zahtev ajax pravimo odgovor u json formatu
                 $responseJson = array(
                     'status' => 'ok',
-                    'statusMessage' => 'User: ' . $user['first_name'] . ' ' . $user['last_name'] . 'has been enabled'
+                    'statusMessage' => 'User: ' . $user['first_name'] . ' ' . $user['last_name'] . ' has been enabled'
                 );
 
                 //saljemo odgovor kao ajax, preko Hleper-a
                 $this->getHelper('Json')->sendJson($responseJson);
             } else {
                 //ukoliko zahtev nije ajax onda saljemo standardan odgovor
-                $flashMessenger->addMessage('User: ' . $user['first_name'] . ' ' . $user['last_name'] . 'has been enabled', 'success');
+                $flashMessenger->addMessage('User: ' . $user['first_name'] . ' ' . $user['last_name'] . ' has been enabled', 'success');
 
                 //redirect on another page
                 $redirector = $this->getHelper('Redirector');
@@ -408,13 +408,13 @@ class Admin_UsersController extends Zend_Controller_Action {
             if ($request->isXmlHttpRequest()) {
                 $responseJson = array(
                     'status' => 'ok',
-                    'statusMessage' => 'User: ' . $user['first_name'] . ' ' . $user['last_name'] . 'has been deleted'
+                    'statusMessage' => 'User: ' . $user['first_name'] . ' ' . $user['last_name'] . ' has been deleted'
                 );
 
                 //saljemo odgovor kao ajax, preko Hleper-a
                 $this->getHelper('Json')->sendJson($responseJson);
             } else {
-                $flashMessenger->addMessage('User: ' . $user['first_name'] . ' ' . $user['last_name'] . 'has been deleted', 'success');
+                $flashMessenger->addMessage('User: ' . $user['first_name'] . ' ' . $user['last_name'] . ' has been deleted', 'success');
 
                 //redirect on another page
                 $redirector = $this->getHelper('Redirector');
@@ -500,7 +500,7 @@ class Admin_UsersController extends Zend_Controller_Action {
             if ($request->isXmlHttpRequest()) {
                 $responseJson = array(
                     'status' => 'ok',
-                    'statusMessage' => 'Users password: ' . $user['first_name'] . ' ' . $user['last_name'] . 'has been reset'
+                    'statusMessage' => 'Users password: ' . $user['first_name'] . ' ' . $user['last_name'] . ' has been reset'
                 );
                 $this->getHelper('Json')->sendJson($responseJson);
             } else {
