@@ -307,7 +307,7 @@ $this->headTitle('Users');
     });
     
      
-     
+     //Plugin jquery
      $('#rows-table').DataTable({
          //ovo je niz u kom definisemo na koje mi se kolone odnose podesavanja
         columnDefs: [
@@ -362,11 +362,142 @@ $this->headTitle('Users');
         }).always(function(){//bilo da se ajax izvrs uspesno ili ne treba da se zatvori
             target.modal('hide');//modal je plug in od jquery-ja
             //refresh table keep selected page
-            $('#rows-table').DataTable().draw(false);//refresh stranice gde smo //ako izostavimo true vraca nas na pocetnu stranu
+            $('#rows-table').DataTable().draw(false);//refresh stranice gde smo //ako izostavimo false vraca nas na pocetnu stranu
         });
         
      });
      
+     
+     //ENABLE
+      $('#enable-warning-dialog').on('submit', function(e) {
+         
+        e.preventDefault();//stop manual submit
+        
+        var target = $(this).is('#enable-warning-dialog') ? $(this) : $(this).closest('#enable-warning-dialog');
+        
+        $.ajax({
+            url: '<?php echo $this->url(array('controller' => 'admin_users', 'action'=> 'enable'),'default', true);?>',
+            method: 'post',
+            data: {
+                task: 'enable',
+                id: target.find('[name="id"]').val()
+            }
+                   
+            
+        }).done(function(data){
+            
+            if (data['status'] == 'ok'){
+                var messageBox =$('[data-container="message-box-success"]').last().clone(true);//klonirali smo oznaceni div
+                messageBox.find('[data-container="message-text"]').text(data['statusMessage']);
+                
+                $('#system-messages-container').append(messageBox);
+            }else{
+                 var messageBox =$('[data-container="message-box-error"]').last().clone(true);//klonirali smo oznaceni div
+                messageBox.find('[data-container="message-text"]').text(data['statusMessage']);
+                //$('#system-messages-container').empty(); ako zelimo da se zatvori prethodna poruka za usera
+                $('#system-messages-container').append(messageBox);
+                
+            }
+            
+        }).fail(function(){//da li je doslo do greske u komunikaciji sa serverom
+            //error in communication with server
+            alert('Error: Server return error');
+            
+        }).always(function(){//bilo da se ajax izvrs uspesno ili ne treba da se zatvori
+            target.modal('hide');//modal je plug in od jquery-ja
+            //refresh table keep selected page
+            $('#rows-table').DataTable().draw(false);//refresh stranice gde smo //ako izostavimo false vraca nas na pocetnu stranu
+        });
+        
+     });
+     
+     //DELETE
+     
+      $('#delete-warning-dialog').on('submit', function(e) {
+         
+        e.preventDefault();//stop manual submit
+        
+        var target = $(this).is('#delete-warning-dialog') ? $(this) : $(this).closest('#delete-warning-dialog');
+        
+        $.ajax({
+            url: '<?php echo $this->url(array('controller' => 'admin_users', 'action'=> 'delete'),'default', true);?>',
+            method: 'post',
+            data: {
+                task: 'delete',
+                id: target.find('[name="id"]').val()
+            }
+                   
+            
+        }).done(function(data){
+            
+            if (data['status'] == 'ok'){
+                var messageBox =$('[data-container="message-box-success"]').last().clone(true);//klonirali smo oznaceni div
+                messageBox.find('[data-container="message-text"]').text(data['statusMessage']);
+                
+                $('#system-messages-container').append(messageBox);
+            }else{
+                 var messageBox =$('[data-container="message-box-error"]').last().clone(true);//klonirali smo oznaceni div
+                messageBox.find('[data-container="message-text"]').text(data['statusMessage']);
+                //$('#system-messages-container').empty(); ako zelimo da se zatvori prethodna poruka za usera
+                $('#system-messages-container').append(messageBox);
+                
+            }
+            
+        }).fail(function(){//da li je doslo do greske u komunikaciji sa serverom
+            //error in communication with server
+            alert('Error: Server return error');
+            
+        }).always(function(){//bilo da se ajax izvrs uspesno ili ne treba da se zatvori
+            target.modal('hide');//modal je plug in od jquery-ja
+            //refresh table keep selected page
+            $('#rows-table').DataTable().draw(false);//refresh stranice gde smo //ako izostavimo false vraca nas na pocetnu stranu
+        });
+        
+     });
+     
+     //RESET PASSWORD
+     
+          $('#resetpassword-warning-dialog').on('submit', function(e) {
+         
+        e.preventDefault();//stop manual submit
+        
+        var target = $(this).is('#resetpassword-warning-dialog') ? $(this) : $(this).closest('#resetpassword-warning-dialog');
+        
+        $.ajax({
+            url: '<?php echo $this->url(array('controller' => 'admin_users', 'action'=> 'resetpassword'),'default', true);?>',
+            method: 'post',
+            data: {
+                task: 'resetpassword',
+                id: target.find('[name="id"]').val()
+            }
+                   
+            
+        }).done(function(data){
+            
+            if (data['status'] == 'ok'){
+                var messageBox =$('[data-container="message-box-success"]').last().clone(true);//klonirali smo oznaceni div
+                messageBox.find('[data-container="message-text"]').text(data['statusMessage']);
+                
+                $('#system-messages-container').append(messageBox);
+            }else{
+                 var messageBox =$('[data-container="message-box-error"]').last().clone(true);//klonirali smo oznaceni div
+                messageBox.find('[data-container="message-text"]').text(data['statusMessage']);
+                //$('#system-messages-container').empty(); ako zelimo da se zatvori prethodna poruka za usera
+                $('#system-messages-container').append(messageBox);
+                
+            }
+            
+        }).fail(function(){//da li je doslo do greske u komunikaciji sa serverom
+            //error in communication with server
+            alert('Error: Server return error');
+            
+        }).always(function(){//bilo da se ajax izvrs uspesno ili ne treba da se zatvori
+            target.modal('hide');//modal je plug in od jquery-ja
+            //refresh table keep selected page
+            $('#rows-table').DataTable().draw(false);//refresh stranice gde smo //ako izostavimo false vraca nas na pocetnu stranu
+        });
+        
+     });
      
     <?php $this->inlineScript()->captureEnd();?> 
 </script>
