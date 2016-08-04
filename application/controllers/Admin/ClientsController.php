@@ -13,12 +13,7 @@ class Admin_ClientsController extends Zend_Controller_Action {
         //prikaz svih member-a
         $cmsClientsDbTable = new Application_Model_DbTable_CmsClients();
 
-        $clients = $cmsClientsDbTable->search(array(
-           'orders' => array(
-                'order_number' => 'ASC',
-                
-            ),
-        ));
+        $clients = $cmsClientsDbTable->search(array());
 
 
         $this->view->clients = $clients;

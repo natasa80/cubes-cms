@@ -324,7 +324,7 @@ $this->headTitle('Users');
      });
      
      
-     
+     //DISABLE
      $('#disable-warning-dialog').on('submit', function(e) {
          
         e.preventDefault();//stop manual submit
@@ -391,15 +391,17 @@ $this->headTitle('Users');
         }).done(function(data){
             
             if (data['status'] == 'ok'){
-                var messageBox =$('[data-container="message-box-success"]').last().clone(true);//klonirali smo oznaceni div
+                var messageBox =$('#message-templates [data-container="message-box-success"]').clone(true);//klonirali smo oznaceni div
                 messageBox.find('[data-container="message-text"]').text(data['statusMessage']);
                 
-                $('#system-messages-container').empty().append(messageBox);
+                $('#system-messages-container').append(messageBox);
+                 messageBox.delay(5000).fadeOut();
             }else{
-                 var messageBox =$('[data-container="message-box-error"]').last().clone(true);//klonirali smo oznaceni div
+                 var messageBox =$('#message-templates [data-container="message-box-error"]').clone(true);//klonirali smo oznaceni div
                 messageBox.find('[data-container="message-text"]').text(data['statusMessage']);
                 //$('#system-messages-container').empty(); ako zelimo da se zatvori prethodna poruka za usera
-                $('#system-messages-container').empty().append(messageBox);
+                $('#system-messages-container').append(messageBox);
+                 messageBox.delay(5000).fadeOut();
                 
             }
             
@@ -435,15 +437,17 @@ $this->headTitle('Users');
         }).done(function(data){
             
             if (data['status'] == 'ok'){
-                var messageBox =$('[data-container="message-box-success"]').last().clone(true);//klonirali smo oznaceni div
+                var messageBox =$('#message-templates [data-container="message-box-success"]').clone(true);//klonirali smo oznaceni div
                 messageBox.find('[data-container="message-text"]').text(data['statusMessage']);
                 
-                $('#system-messages-container').empty().append(messageBox);
+                $('#system-messages-container').append(messageBox);
+                 messageBox.delay(5000).fadeOut();
             }else{
-                 var messageBox =$('[data-container="message-box-error"]').last().clone(true);//klonirali smo oznaceni div
+                 var messageBox =$(' #message-templates [data-container="message-box-error"]').clone(true);//klonirali smo oznaceni div
                 messageBox.find('[data-container="message-text"]').text(data['statusMessage']);
                 //$('#system-messages-container').empty(); ako zelimo da se zatvori prethodna poruka za usera
-                $('#system-messages-container').empty().append(messageBox);
+                $('#system-messages-container').append(messageBox);
+                 messageBox.delay(5000).fadeOut();
                 
             }
             
@@ -479,15 +483,17 @@ $this->headTitle('Users');
         }).done(function(data){
             
             if (data['status'] == 'ok'){
-                var messageBox =$('[data-container="message-box-success"]').last().clone(true);//klonirali smo oznaceni div
+                var messageBox =$('#message-templates [data-container="message-box-success"]').clone(true);//klonirali smo oznaceni div
                 messageBox.find('[data-container="message-text"]').text(data['statusMessage']);
                 
-                $('#system-messages-container').empty().append(messageBox);
+                $('#system-messages-container').append(messageBox);
+                 messageBox.delay(5000).fadeOut();
             }else{
-                 var messageBox =$('[data-container="message-box-error"]').last().clone(true);//klonirali smo oznaceni div
+                 var messageBox =$('#message-templates [data-container="message-box-error"]').clone(true);//klonirali smo oznaceni div
                 messageBox.find('[data-container="message-text"]').text(data['statusMessage']);
                 //$('#system-messages-container').empty(); ako zelimo da se zatvori prethodna poruka za usera
-                $('#system-messages-container').empty().append(messageBox);
+                $('#system-messages-container').append(messageBox);
+                 messageBox.delay(5000).fadeOut();
                 
             }
             
