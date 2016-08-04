@@ -55,6 +55,8 @@ class AboutusController extends Zend_Controller_Action
         
         }
         
+        
+        
         $cmsMembersDbTable = new Application_Model_DbTable_CmsMembers();
         
         
@@ -73,6 +75,16 @@ class AboutusController extends Zend_Controller_Action
         
         
         $member = $foundMembers[0];
+        
+//        $memberSlug = $request->getParam('member_slug');
+//        if(empty($memberSlug)){
+//             $redirector = $this->getHelper('Redirector');
+//                        $redirector->setExit(true)
+//                                ->gotoRoute(array( 
+//                                    'id' => $member['id'],
+//                                    'member_slug' => $member['first_name'] . '-' . $member['last_name']
+//                                        ), 'member-route', true);
+//        }
         //Fetching all other member
          $select = $cmsMembersDbTable->select();
         $select->where('status = ?', Application_Model_DbTable_CmsMembers::STATUS_ENABLED)

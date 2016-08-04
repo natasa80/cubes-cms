@@ -184,7 +184,7 @@ $this->headTitle('Users');
   </div><!-- /.modal-dialog -->
 </form><!-- /.modal -->
 
-<div style="display: none">
+<div id="message-templates" style="display: none">
 
     <div data-container="message-box-success" class="alert alert-success alert-dismissible" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -333,25 +333,29 @@ $this->headTitle('Users');
         
         $.ajax({
             url: '<?php echo $this->url(array('controller' => 'admin_users', 'action'=> 'disable'),'default', true);?>',
-            method: 'post',
+            method: 'post',//salji ajax zahtev ali preko jsona
             data: {
-                task: 'disable',
-                id: target.find('[name="id"]').val()
+                task: 'disable',//ovo je name iz forme
+                id: target.find('[name="id"]').val()//id dinamicki se dohvati -selektor po atributu
             }
                    
             
-        }).done(function(data){
+        }).done(function(data){//mi znamo da je ovo json-data
             
             if (data['status'] == 'ok'){
-                var messageBox =$('[data-container="message-box-success"]').last().clone(true);//klonirali smo oznaceni div
+                var messageBox =$('#message-templates [data-container="message-box-success"]').clone(true);//klonirali smo oznaceni div
                 messageBox.find('[data-container="message-text"]').text(data['statusMessage']);
                 
-                $('#system-messages-container').empty().append(messageBox);
+                $('#system-messages-container').append(messageBox);
+                //delay fadeout for 5000 milliseconds
+                messageBox.delay(5000).fadeOut();
+                
             }else{
-                 var messageBox =$('[data-container="message-box-error"]').last().clone(true);//klonirali smo oznaceni div
+                 var messageBox =$('#message-templates').find('[data-container="message-box-error"]').clone(true);//klonirali smo oznaceni div
                 messageBox.find('[data-container="message-text"]').text(data['statusMessage']);
                 //$('#system-messages-container').empty(); ako zelimo da se zatvori prethodna poruka za usera
-                $('#system-messages-container').empty().append(messageBox);
+                $('#system-messages-container').append(messageBox);
+                 messageBox.delay(5000).fadeOut();
                 
             }
             
