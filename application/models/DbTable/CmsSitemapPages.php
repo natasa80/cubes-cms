@@ -82,35 +82,25 @@ class Application_Model_DbTable_CmsSitemapPages extends Zend_Db_Table_Abstract{
 //            'order_number' => new Zend_Db_Expr('order_number -1')
 //                ), 'order_number > ' . $sitemapPage['order_number'] . 'AND parent_id = ' . $sitemapPage['parent_id']);
 //
-        
-         $childSitemapPages = $this->search(array(
-           'filters' => array(
-              'parent_id' => $id  
+
+        $childSitemapPages = $this->search(array(
+            'filters' => array(
+                'parent_id' => $id
             )
-                   
         ));
-         if(!empty($childSitemapPages)){
-             
-             foreach ($childSitemapPages as $key => $childSitemapPage) {
+        if (!empty($childSitemapPages)) {
+
+            foreach ($childSitemapPages as $key => $childSitemapPage) {
                 // print_r($childSitemapPage['id']);
-                    //    die();
-           
-                  $this->deleteSitemapPage($childSitemapPage['id']);
-             }
-             $this->delete('id = ' .$id);
+                //    die();
 
-         } else {
-             $this->delete('id = ' .$id);
-         }
-          
-    
-        
-        
+                $this->deleteSitemapPage($childSitemapPage['id']);
+            }
+            $this->delete('id = ' . $id);
+        } else {
+            $this->delete('id = ' . $id);
+        }
     }
-
-  
-
- 
 
     public function updateSitemapPageOfOrder($sortedIds) {
 
