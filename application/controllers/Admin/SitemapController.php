@@ -270,6 +270,210 @@ class Admin_SitemapController extends Zend_Controller_Action
         $this->view->sitemapPageBreadcrumbs = $sitemapPageBreadcrumbs;
         $this->view->sitemapPage = $sitemapPage;
     }
+    
+    
+     public function disableAction() {
 
-   
+        $request = $this->getRequest();
+
+        if (!$request->isPost() || $request->getPost('task') != 'disable') {
+
+            //request is not post, 
+            //or task is not delete
+            //redirecting to index page
+
+            $redirector = $this->getHelper('Redirector');
+            $redirector->setExit(true)
+                    ->gotoRoute(array(
+                        'controller' => 'admin_sitemap',
+                        'action' => 'index',
+                        'id' =>$sitemapPage['parent_id']
+                            ), 'default', true);
+        }
+
+        $flashMessenger = $this->getHelper('FlashMessenger');
+
+        try {
+
+            //read $_POST
+            $id = (int) $request->getPost('id');
+
+
+            if ($id <= 0) {
+                throw new Application_Model_Exception_InvalidInput('Invalid member id: ' . $id, 'errors');
+            }
+
+             $cmsSitemapPagesTable = new Application_Model_DbTable_CmsSitemapPages();
+
+            $sitemapPage = $cmsSitemapPagesTable->getSitemapPageById($id);
+
+            if (empty($sitemapPage)) {
+
+                throw new Application_Model_Exception_InvalidInput('No sitemap is found with id: ' . $id, 'errors');
+            }
+
+            $cmsSitemapPagesTable->disableSitemap($id);
+
+
+            $flashMessenger->addMessage('Site: ' . $sitemapPage['short_title'] . 'has been disabled', 'success');
+
+            //redirect on another page
+            $redirector = $this->getHelper('Redirector');
+            $redirector->setExit(true)
+                    ->gotoRoute(array(
+                        'controller' => 'admin_sitemap',
+                        'action' => 'index',
+                        'id' =>$sitemapPage['parent_id']
+                            ), 'default', true);
+        } catch (Application_Model_Exception_InvalidInput $ex) {
+
+            $flashMessenger->addMessage($ex->getMessage(), 'errors');
+
+            //redirect on another page
+            $redirector = $this->getHelper('Redirector');
+            $redirector->setExit(true)
+                    ->gotoRoute(array(
+                        'controller' => 'admin_sitemap',
+                        'action' => 'index',
+                        'id' =>$sitemapPage['parent_id']
+                            ), 'default', true);
+        }
+    }
+
+    
+    
+    
+    public function enableAction() {
+
+        $request = $this->getRequest();
+
+        if (!$request->isPost() || $request->getPost('task') != 'enable') {
+
+            //request is not post, 
+            //or task is not delete
+            //redirecting to index page
+
+            $redirector = $this->getHelper('Redirector');
+            $redirector->setExit(true)
+                    ->gotoRoute(array(
+                        'controller' => 'admin_sitemap',
+                        'action' => 'index',
+                        'id' =>$sitemapPage['parent_id']
+                            ), 'default', true);
+        }
+
+        $flashMessenger = $this->getHelper('FlashMessenger');
+
+        try {
+
+            //read $_POST
+            $id = (int) $request->getPost('id');
+
+
+            if ($id <= 0) {
+                throw new Application_Model_Exception_InvalidInput('Invalid sitemap id: ' . $id, 'errors');
+            }
+
+           $cmsSitemapPagesTable = new Application_Model_DbTable_CmsSitemapPages();
+
+            $sitemapPage = $cmsSitemapPagesTable->getSitemapPageById($id);
+
+            if (empty($sitemapPage)) {
+
+                throw new Application_Model_Exception_InvalidInput('No sitemap is found with id: ' . $id, 'errors');
+            }
+
+            $cmsSitemapPagesTable->enableSitemapPage($id);
+
+
+            $flashMessenger->addMessage('Site: ' . $sitemapPage['short_title'] . ' has been enabled', 'success');
+
+            //redirect on another page
+            $redirector = $this->getHelper('Redirector');
+            $redirector->setExit(true)
+                    ->gotoRoute(array(
+                        'controller' => 'admin_sitemap',
+                        'action' => 'index',
+                        'id' =>$sitemapPage['parent_id']
+                            ), 'default', true);
+        } catch (Application_Model_Exception_InvalidInput $ex) {
+
+            $flashMessenger->addMessage($ex->getMessage(), 'errors');
+
+            //redirect on another page
+            $redirector = $this->getHelper('Redirector');
+            $redirector->setExit(true)
+                    ->gotoRoute(array(
+                        'controller' => 'admin_sitemap',
+                        'action' => 'index',
+                        'id' =>$sitemapPage['parent_id']
+                            ), 'default', true);
+        }
+    }
+
+
+    public function deleteAction() {
+
+        $request = $this->getRequest();
+
+        if (!$request->isPost() || $request->getPost('task') != 'delete') {
+
+
+            $redirector = $this->getHelper('Redirector');
+            $redirector->setExit(true)
+                    ->gotoRoute(array(
+                        'controller' => 'admin_sitemap',
+                        'action' => 'index',
+                        'id' =>$sitemapPage['parent_id']
+                            ), 'default', true);
+        }
+
+        $flashMessenger = $this->getHelper('FlashMessenger');
+
+        try {
+
+            //read $_POST
+            $id = (int) $request->getPost('id');
+
+
+            if ($id <= 0) {
+                throw new Application_Model_Exception_InvalidInput('Invalid sitemap id: ' . $id, 'errors');
+            }
+
+           $cmsSitemapPagesTable = new Application_Model_DbTable_CmsSitemapPages();
+
+            $sitemapPage = $cmsSitemapPagesTable->getSitemapPageById($id);
+
+            if (empty($sitemapPage)) {
+
+                throw new Application_Model_Exception_InvalidInput('No sitemap is found with id: ' . $id, 'errors');
+            }
+
+            $cmsSitemapPagesTable->deleteSitemapPage($id);
+
+
+            $flashMessenger->addMessage('Site: ' . $sitemapPage['short_title'] .  ' has been deleted', 'success');
+
+            //redirect on another page
+            $redirector = $this->getHelper('Redirector');
+            $redirector->setExit(true)
+                    ->gotoRoute(array(
+                        'controller' => 'admin_sitemap',
+                        'action' => 'index',
+                        'id' =>$sitemapPage['parent_id']
+                            ), 'default', true);
+        } catch (Application_Model_Exception_InvalidInput $ex) {
+
+            $flashMessenger->addMessage($ex->getMessage(), 'errors');
+
+            //redirect on another page
+            $redirector = $this->getHelper('Redirector');
+            $redirector->setExit(true)
+                    ->gotoRoute(array(
+                        'controller' => 'admin_sitemap',
+                        'action' => 'index',
+                        'id' =>$sitemapPage['parent_id']
+                            ), 'default', true);
+        }
+    }
 }

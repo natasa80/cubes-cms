@@ -78,35 +78,39 @@ class Application_Model_DbTable_CmsSitemapPages extends Zend_Db_Table_Abstract{
         //sitemapPage to delete
         $sitemapPage = $this->getSitemapPageById($id);
 
-        $this->update(array(
-            'order_number' => new Zend_Db_Expr('order_number -1')
-                ), 'order_number > ' . $sitemapPage['order_number'] . 'AND parent_id = ' . $sitemapPage['parent_id']);
+//        $this->update(array(
+//            'order_number' => new Zend_Db_Expr('order_number -1')
+//                ), 'order_number > ' . $sitemapPage['order_number'] . 'AND parent_id = ' . $sitemapPage['parent_id']);
+//
+        
+         $childSitemapPages = $this->search(array(
+           'filters' => array(
+              'parent_id' => $id  
+            )
+                   
+        ));
+         if(!empty($childSitemapPages)){
+             
+             foreach ($childSitemapPages as $key => $childSitemapPage) {
+                // print_r($childSitemapPage['id']);
+                    //    die();
+           
+                  $this->deleteSitemapPage($childSitemapPage['id']);
+             }
+             $this->delete('id = ' .$id);
 
-
-        $this->delete('id = ' . $id);
+         } else {
+             $this->delete('id = ' .$id);
+         }
+          
+    
+        
+        
     }
 
-    /**
-     * 
-     * @param nt $id ID of sitemapPage to enable
-     */
-    public function disableSitemapPage($id) {
+  
 
-        $this->update(array(
-            'status' => self::STATUS_DISABLED
-                ), 'id = ' . $id);
-    }
-
-    /**
-     * 
-     * @param nt $id ID of sitemapPage to enable
-     */
-    public function enableSitemapPage($id) {
-
-        $this->update(array(
-            'status' => self::STATUS_ENABLED
-                ), 'id = ' . $id);
-    }
+ 
 
     public function updateSitemapPageOfOrder($sortedIds) {
 
@@ -311,6 +315,28 @@ class Application_Model_DbTable_CmsSitemapPages extends Zend_Db_Table_Abstract{
         
         
         return $sitemapPagesBreadcrumbs;
+    }
+    
+     /**
+     * 
+     * @param nt $id ID of member to enable
+     */
+    public function disableSitemap($id) {
+
+        $this->update(array(
+            'status' => self::STATUS_DISABLED
+                ), 'id = ' . $id);
+    }
+    
+       /**
+     * 
+     * @param nt $id ID of sitemapPage to enable
+     */
+    public function enableSitemapPage($id) {
+
+        $this->update(array(
+            'status' => self::STATUS_ENABLED
+                ), 'id = ' . $id);
     }
   
 }
