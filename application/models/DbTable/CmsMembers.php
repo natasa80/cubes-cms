@@ -124,41 +124,7 @@ class Application_Model_DbTable_CmsMembers extends Zend_Db_Table_Abstract {
         }
     }
     
-    
-    
-    /**
-     * 
-     * @param array $members
-     * @return int number of active members
-     */
-    public function activeMembers($members) {
-        $activeMembers = 0;
-        foreach ($members as $member) {
-            if ($member['status'] == self::STATUS_ENABLED) {
-                $activeMembers ++;
-            }
-        }
-
-        return $activeMembers;
-    }
-    
-    
-    /**
-     * 
-     * @param array $members
-     * @return int total number of members
-     */
-    public function totalMembers( $members) {
-        $totalNumberOfMembers =0;
-        
-        foreach ($members as $member){
-            $totalNumberOfMembers ++;
-        }
-        
-        
-        return $totalNumberOfMembers ;
-    }
-    
+   
      /**
      * Array $parameters is keeping search parameters.
      * Array $parameters  must be in following format:

@@ -16,16 +16,14 @@ class Admin_MembersController extends Zend_Controller_Action {
         $members = $cmsMembersDbTable->search(array(
 //            'filters' => array(
 //                'first_name' => array('Aleksandar', 'Aleksandra', 'Bojan')
-                
-           // ),
+            // ),
             'orders' => array(
                 'order_number' => 'ASC',
-                
             ),
-            //'limit' => 4,
-            //'page' => 2
+                //'limit' => 4,
+                //'page' => 2
         ));
-       
+
         $this->view->members = $members;
         $this->view->systemMessages = $systemMessages;
     }
@@ -460,7 +458,7 @@ class Admin_MembersController extends Zend_Controller_Action {
             $cmsMembersTable = new Application_Model_DbTable_CmsMembers();
 
             $cmsMembersTable->updateMemberOfOrder($sortedIds);
-            
+
 
             $flashMessenger->addMessage('Order is successfully saved', 'success');
 
@@ -486,17 +484,16 @@ class Admin_MembersController extends Zend_Controller_Action {
     }
 
     public function dashboardAction() {
-        
-        
+
+
         $cmsMembersDbTable = new Application_Model_DbTable_CmsMembers();
         $totalNumberOfMembers = $cmsMembersDbTable->count();
         $activeMembers = $cmsMembersDbTable->count(array(
             'status' => Application_Model_DbTable_CmsMembers::STATUS_ENABLED
         ));
-        
+
         $this->view->activeMembers = $activeMembers;
         $this->view->totalNumberOfMembers = $totalNumberOfMembers;
-      
     }
 
 }

@@ -1,13 +1,13 @@
 <?php
 
-class Application_Model_DbTable_CmsSitemapPages extends Zend_Db_Table_Abstract{
-    
+class Application_Model_DbTable_CmsSitemapPages extends Zend_Db_Table_Abstract {
+
     const STATUS_ENABLED = 1;
     const STATUS_DISABLED = 0;
-    
+
     protected $_name = 'cms_sitemap_pages';
-    
-     /**
+
+    /**
      * 
      * @param int $id
      * @return null|array Associative array with keys as cms_sitemap_pages table columns or NULL if not found
@@ -102,7 +102,7 @@ class Application_Model_DbTable_CmsSitemapPages extends Zend_Db_Table_Abstract{
         }
     }
 
-    public function updateSitemapPageOfOrder($sortedIds) {
+    public function updateSitemapOfOrder($sortedIds) {
 
         foreach ($sortedIds as $orderNumber => $id) {
 
@@ -111,8 +111,8 @@ class Application_Model_DbTable_CmsSitemapPages extends Zend_Db_Table_Abstract{
                     ), 'id = ' . $id);
         }
     }
-    
-        /**
+
+    /**
      * Array $parameters is keeping search parameters.
      * Array $parameters  must be in following format:
      *      array(
@@ -187,8 +187,8 @@ class Application_Model_DbTable_CmsSitemapPages extends Zend_Db_Table_Abstract{
             }
         }
 
-            //da proverimo koji nam se query izvrsava
-            //die($select->assemble());
+        //da proverimo koji nam se query izvrsava
+        //die($select->assemble());
         //ovde dobijamo niz sa upitom
         return $this->fetchAll($select)->toArray();
     }
@@ -230,14 +230,14 @@ class Application_Model_DbTable_CmsSitemapPages extends Zend_Db_Table_Abstract{
 
             switch ($field) {
 
-                    case 'id':
-                    case 'short_title':
-                    case 'url_slug':
-                    case 'title':
-                    case 'parent_id':
-                    case 'type':
-                    case 'order_number':
-                    case 'status':
+                case 'id':
+                case 'short_title':
+                case 'url_slug':
+                case 'title':
+                case 'parent_id':
+                case 'type':
+                case 'order_number':
+                case 'status':
 
                     if (is_array($value)) {
                         $select->where($field . ' IN (?)', $value);
@@ -248,7 +248,7 @@ class Application_Model_DbTable_CmsSitemapPages extends Zend_Db_Table_Abstract{
 
                     break;
 
-               
+
 
                 case 'title_search':
                     $select->where('title LIKE ?', '%' . $value . '%');
@@ -267,47 +267,46 @@ class Application_Model_DbTable_CmsSitemapPages extends Zend_Db_Table_Abstract{
 
                     $select->where('body_search LIKE ?', '%' . $value . '%');
                     break;
-                
+
                 case 'id_exclude':
-                    
-                    if (is_array($value)){
+
+                    if (is_array($value)) {
                         $select->where('id NOT IN (?)', $value);
-                    }else {
+                    } else {
                         $select->where('id != ?', $value);
                     }
                     break;
-                    
-                
             }
         }
     }
 
-    /**@param The id of sitemap page
+    /*     * @param The id of sitemap page
      * @ return array Sitemap page rows in path
      */
-    public function getSitemapPageBreadcrumbs($id){
-        
+
+    public function getSitemapPageBreadcrumbs($id) {
+
         $sitemapPagesBreadcrumbs = array();
-       
-        
-        while($id >0){
+
+
+        while ($id > 0) {
             $sitemapPageInPath = $this->getSitemapPageById($id);
-            
-            if($sitemapPageInPath){
-               $id = $sitemapPageInPath['parent_id'];
-                
+
+            if ($sitemapPageInPath) {
+                $id = $sitemapPageInPath['parent_id'];
+
                 //add current page at the beggining of breadcrumbs array
                 array_unshift($sitemapPagesBreadcrumbs, $sitemapPageInPath);
             } else {
                 $id = 0;
             }
         }
-        
-        
+
+
         return $sitemapPagesBreadcrumbs;
     }
-    
-     /**
+
+    /**
      * 
      * @param nt $id ID of member to enable
      */
@@ -317,8 +316,8 @@ class Application_Model_DbTable_CmsSitemapPages extends Zend_Db_Table_Abstract{
             'status' => self::STATUS_DISABLED
                 ), 'id = ' . $id);
     }
-    
-       /**
+
+    /**
      * 
      * @param nt $id ID of sitemapPage to enable
      */
@@ -328,5 +327,5 @@ class Application_Model_DbTable_CmsSitemapPages extends Zend_Db_Table_Abstract{
             'status' => self::STATUS_ENABLED
                 ), 'id = ' . $id);
     }
-  
+
 }

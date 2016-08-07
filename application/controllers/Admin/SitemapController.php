@@ -1,13 +1,13 @@
 <?php
 
-class Admin_SitemapController extends Zend_Controller_Action 
-{
-    public function indexAction(){
-         $request = $this->getRequest();
-        
+class Admin_SitemapController extends Zend_Controller_Action {
+
+    public function indexAction() {
+        $request = $this->getRequest();
+
         $flashMessenger = $this->getHelper('FlashMessenger');
-        
-     
+
+
 
         $systemMessages = array(
             'success' => $flashMessenger->getMessages('success'),
@@ -15,14 +15,14 @@ class Admin_SitemapController extends Zend_Controller_Action
         );
         //if no request_id parametere, than $Id will be 0
         $id = (int) $request->getParam('id', 0);
-        
-        if ($id < 0){
-            throw new  Zend_Controller_Router_Exception('Invalid parent id for site map pages ', 404);
+
+        if ($id < 0) {
+            throw new Zend_Controller_Router_Exception('Invalid parent id for site map pages ', 404);
         }
-        
-       
+
+
         $cmsSitemapPagesDbTable = new Application_Model_DbTable_CmsSitemapPages();
-        
+
         if ($id != 0) {
 
             $sitemapPage = $cmsSitemapPagesDbTable->getSitemapPageById($id);
@@ -40,47 +40,45 @@ class Admin_SitemapController extends Zend_Controller_Action
                 'parent_id' => $id
             ),
             'orders' => array(
-                'order_number' > 'ASC'
+                'order_number' => 'ASC'
             ),
-            //'limit' => 50,
-            //'page' => 3
+                //'limit' => 50,
+                //'page' => 3
         ));
-        
+
         $sitemapPageBreadcrumbs = $cmsSitemapPagesDbTable->getSitemapPageBreadcrumbs($id);
-        
-        
+
+
         $this->view->childSitemapPages = $childSitemapPages;
-        
+
         $this->view->systemMessages = $systemMessages;
         $this->view->sitemapPageBreadcrumbs = $sitemapPageBreadcrumbs;
         $this->view->currentSitemapPageId = $id;
     }
-    
-    
-    public function addAction(){
-        
-        
+
+    public function addAction() {
+
+
         $request = $this->getRequest(); //podaci iz url-a iz forme koje dobijemo
-        
-        $parentId = (int)$request->getParam('parent_id', 0);
-        
-        if ($parentId < 0){
-            throw new  Zend_Controller_Router_Exception('Invalid parent id for site map pages ', 404);
+
+        $parentId = (int) $request->getParam('parent_id', 0);
+
+        if ($parentId < 0) {
+            throw new Zend_Controller_Router_Exception('Invalid parent id for site map pages ', 404);
         }
-        
-       
+
+
         $cmsSitemapPagesDbTable = new Application_Model_DbTable_CmsSitemapPages();
-        
-        if( $parentId !=0 ){
+
+        if ($parentId != 0) {
             //check if parent page exist
-           $parentSitemapPage = $cmsSitemapPagesDbTable->getSitemapPageById($parentId);
-           
-           if (!$parentSitemapPage){
-                throw new  Zend_Controller_Router_Exception('No site map page is found for id:  ' . $parentId, 404);
-           }
-            
+            $parentSitemapPage = $cmsSitemapPagesDbTable->getSitemapPageById($parentId);
+
+            if (!$parentSitemapPage) {
+                throw new Zend_Controller_Router_Exception('No site map page is found for id:  ' . $parentId, 404);
+            }
         }
-        
+
         $flashMessenger = $this->getHelper('FlashMessenger');
 
         $systemMessages = array(
@@ -92,7 +90,7 @@ class Admin_SitemapController extends Zend_Controller_Action
 
 
         $form->populate(array(
-        ));  
+        ));
 
 
 
@@ -107,16 +105,13 @@ class Admin_SitemapController extends Zend_Controller_Action
                 //get form data//vrednosti iz forme se uzimaju preko getVaues i upisuju u niz
                 //to su filtrirani i validirani podaci
                 $formData = $form->getValues();
-                
+
                 //set parent_id for new page
                 $formData['parent_id'] = $parentId;
 
 
                 //remove key memebr_photo from form data because there is no column memebr_photo in cms _sitemapPages
                 //unset($formData['sitemap_page_photo']);
-
-
-
                 //insert sitemapPage returns ID of the new sitemapPage
                 $sitemapPageId = $cmsSitemapPagesDbTable->insertSitemapPage($formData);
 
@@ -148,8 +143,6 @@ class Admin_SitemapController extends Zend_Controller_Action
 //                                        ), 'default', true);
 //                    }
 //                }
-
-
                 // do actual task
                 //save to database etc
                 //set system message
@@ -167,17 +160,16 @@ class Admin_SitemapController extends Zend_Controller_Action
                 $systemMessages['errors'][] = $ex->getMessage();
             }
         }
-        
+
         $sitemapPageBreadcrumbs = $cmsSitemapPagesDbTable->getSitemapPageBreadcrumbs($parentId);
-      $this->view->sitemapPageBreadcrumbs = $sitemapPageBreadcrumbs;
+        $this->view->sitemapPageBreadcrumbs = $sitemapPageBreadcrumbs;
         $this->view->systemMessages = $systemMessages;
         $this->view->form = $form;
-         $this->view->parentId = $parentId;
+        $this->view->parentId = $parentId;
     }
-    
-    
-    public function editAction(){
-         $request = $this->getRequest();
+
+    public function editAction() {
+        $request = $this->getRequest();
 
         $id = (int) $request->getParam('id');
 
@@ -188,7 +180,7 @@ class Admin_SitemapController extends Zend_Controller_Action
 
 
         $cmsSitemapPagesTable = new Application_Model_DbTable_CmsSitemapPages();
-        
+
         $sitemapPage = $cmsSitemapPagesTable->getSitemapPageById($id);
 
         if (empty($sitemapPage)) {
@@ -258,7 +250,7 @@ class Admin_SitemapController extends Zend_Controller_Action
                         ->gotoRoute(array(
                             'controller' => 'admin_sitemap',
                             'action' => 'index',
-                            'id' =>$sitemapPage['parent_id']
+                            'id' => $sitemapPage['parent_id']
                                 ), 'default', true);
             } catch (Application_Model_Exception_InvalidInput $ex) {
                 $systemMessages['errors'][] = $ex->getMessage();
@@ -270,9 +262,8 @@ class Admin_SitemapController extends Zend_Controller_Action
         $this->view->sitemapPageBreadcrumbs = $sitemapPageBreadcrumbs;
         $this->view->sitemapPage = $sitemapPage;
     }
-    
-    
-     public function disableAction() {
+
+    public function disableAction() {
 
         $request = $this->getRequest();
 
@@ -287,7 +278,7 @@ class Admin_SitemapController extends Zend_Controller_Action
                     ->gotoRoute(array(
                         'controller' => 'admin_sitemap',
                         'action' => 'index',
-                        'id' =>$sitemapPage['parent_id']
+                        'id' => $sitemapPage['parent_id']
                             ), 'default', true);
         }
 
@@ -300,10 +291,10 @@ class Admin_SitemapController extends Zend_Controller_Action
 
 
             if ($id <= 0) {
-                throw new Application_Model_Exception_InvalidInput('Invalid member id: ' . $id, 'errors');
+                throw new Application_Model_Exception_InvalidInput('Invalid sitemap id: ' . $id, 'errors');
             }
 
-             $cmsSitemapPagesTable = new Application_Model_DbTable_CmsSitemapPages();
+            $cmsSitemapPagesTable = new Application_Model_DbTable_CmsSitemapPages();
 
             $sitemapPage = $cmsSitemapPagesTable->getSitemapPageById($id);
 
@@ -323,7 +314,7 @@ class Admin_SitemapController extends Zend_Controller_Action
                     ->gotoRoute(array(
                         'controller' => 'admin_sitemap',
                         'action' => 'index',
-                        'id' =>$sitemapPage['parent_id']
+                        'id' => $sitemapPage['parent_id']
                             ), 'default', true);
         } catch (Application_Model_Exception_InvalidInput $ex) {
 
@@ -335,14 +326,11 @@ class Admin_SitemapController extends Zend_Controller_Action
                     ->gotoRoute(array(
                         'controller' => 'admin_sitemap',
                         'action' => 'index',
-                        'id' =>$sitemapPage['parent_id']
+                        'id' => $sitemapPage['parent_id']
                             ), 'default', true);
         }
     }
 
-    
-    
-    
     public function enableAction() {
 
         $request = $this->getRequest();
@@ -358,7 +346,7 @@ class Admin_SitemapController extends Zend_Controller_Action
                     ->gotoRoute(array(
                         'controller' => 'admin_sitemap',
                         'action' => 'index',
-                        'id' =>$sitemapPage['parent_id']
+                        'id' => $sitemapPage['parent_id']
                             ), 'default', true);
         }
 
@@ -374,7 +362,7 @@ class Admin_SitemapController extends Zend_Controller_Action
                 throw new Application_Model_Exception_InvalidInput('Invalid sitemap id: ' . $id, 'errors');
             }
 
-           $cmsSitemapPagesTable = new Application_Model_DbTable_CmsSitemapPages();
+            $cmsSitemapPagesTable = new Application_Model_DbTable_CmsSitemapPages();
 
             $sitemapPage = $cmsSitemapPagesTable->getSitemapPageById($id);
 
@@ -394,7 +382,7 @@ class Admin_SitemapController extends Zend_Controller_Action
                     ->gotoRoute(array(
                         'controller' => 'admin_sitemap',
                         'action' => 'index',
-                        'id' =>$sitemapPage['parent_id']
+                        'id' => $sitemapPage['parent_id']
                             ), 'default', true);
         } catch (Application_Model_Exception_InvalidInput $ex) {
 
@@ -406,53 +394,103 @@ class Admin_SitemapController extends Zend_Controller_Action
                     ->gotoRoute(array(
                         'controller' => 'admin_sitemap',
                         'action' => 'index',
-                        'id' =>$sitemapPage['parent_id']
+                        'id' => $sitemapPage['parent_id']
                             ), 'default', true);
         }
     }
 
-
     public function deleteAction() {
-
         $request = $this->getRequest();
-
         if (!$request->isPost() || $request->getPost('task') != 'delete') {
-
-
             $redirector = $this->getHelper('Redirector');
             $redirector->setExit(true)
                     ->gotoRoute(array(
                         'controller' => 'admin_sitemap',
                         'action' => 'index',
                         'id' =>$sitemapPage['parent_id']
+                            ), 'default', true);
+        }
+        $flashMessenger = $this->getHelper('FlashMessenger');
+        try {
+            //read $_POST
+            $id = (int) $request->getPost('id');
+            if ($id <= 0) {
+                throw new Application_Model_Exception_InvalidInput('Invalid sitemap id: ' . $id, 'errors');
+            }
+           $cmsSitemapPagesTable = new Application_Model_DbTable_CmsSitemapPages();
+            $sitemapPage = $cmsSitemapPagesTable->getSitemapPageById($id);
+            if (empty($sitemapPage)) {
+                throw new Application_Model_Exception_InvalidInput('No sitemap is found with id: ' . $id, 'errors');
+            }
+            $cmsSitemapPagesTable->deleteSitemapPage($id);
+            $flashMessenger->addMessage('Site: ' . $sitemapPage['short_title'] .  ' has been deleted', 'success');
+            //redirect on another page
+            $redirector = $this->getHelper('Redirector');
+            $redirector->setExit(true)
+                    ->gotoRoute(array(
+                        'controller' => 'admin_sitemap',
+                        'action' => 'index',
+                        'id' =>$sitemapPage['parent_id']
+                            ), 'default', true);
+        } catch (Application_Model_Exception_InvalidInput $ex) {
+            $flashMessenger->addMessage($ex->getMessage(), 'errors');
+            //redirect on another page
+            $redirector = $this->getHelper('Redirector');
+            $redirector->setExit(true)
+                    ->gotoRoute(array(
+                        'controller' => 'admin_sitemap',
+                        'action' => 'index',
+                        'id' =>$sitemapPage['parent_id']
+                            ), 'default', true);
+        }
+    }
+    
+    
+    public function updateorderAction() {
+        $request = $this->getRequest();
+
+        $cmsSitemapPagesTable = new Application_Model_DbTable_CmsSitemapPages();
+
+        //dobijamo id 
+        $id = $this->getParam('id');
+        $sitemapPage = $cmsSitemapPagesTable->getSitemapPageById($id);
+
+
+        if (!$request->isPost() || $request->getPost('task') != 'saveOrder') {
+
+            $redirector = $this->getHelper('Redirector');
+            $redirector->setExit(true)
+                    ->gotoRoute(array(
+                        'controller' => 'admin_sitemap',
+                        'action' => 'index',
+                        'id' => $sitemapPage['parent_id']
                             ), 'default', true);
         }
 
         $flashMessenger = $this->getHelper('FlashMessenger');
 
+
         try {
 
-            //read $_POST
-            $id = (int) $request->getPost('id');
+            $sortedIds = $request->getPost('sorted_ids');
 
 
-            if ($id <= 0) {
-                throw new Application_Model_Exception_InvalidInput('Invalid sitemap id: ' . $id, 'errors');
+            if (empty($sortedIds)) {
+
+                throw new Application_Model_Exception_InvalidInput('Sorted ids are not sent');
             }
 
-           $cmsSitemapPagesTable = new Application_Model_DbTable_CmsSitemapPages();
+            $sortedIds = trim($sortedIds, ' ,');
 
-            $sitemapPage = $cmsSitemapPagesTable->getSitemapPageById($id);
-
-            if (empty($sitemapPage)) {
-
-                throw new Application_Model_Exception_InvalidInput('No sitemap is found with id: ' . $id, 'errors');
+            if (!preg_match('/^[0-9]+(,[0-9]+)*$/', $sortedIds)) {
+                throw new Application_Model_Exception_InvalidInput('Invalid  sorted ids ' . $sortedIds);
             }
 
-            $cmsSitemapPagesTable->deleteSitemapPage($id);
+            $sortedIds = explode(',', $sortedIds);
 
+            $cmsSitemapPagesTable->updateSitemapOfOrder($sortedIds);
 
-            $flashMessenger->addMessage('Site: ' . $sitemapPage['short_title'] .  ' has been deleted', 'success');
+            $flashMessenger->addMessage('Order is successfully saved', 'success');
 
             //redirect on another page
             $redirector = $this->getHelper('Redirector');
@@ -460,7 +498,7 @@ class Admin_SitemapController extends Zend_Controller_Action
                     ->gotoRoute(array(
                         'controller' => 'admin_sitemap',
                         'action' => 'index',
-                        'id' =>$sitemapPage['parent_id']
+                        'id' => $sitemapPage['parent_id']
                             ), 'default', true);
         } catch (Application_Model_Exception_InvalidInput $ex) {
 
@@ -472,8 +510,9 @@ class Admin_SitemapController extends Zend_Controller_Action
                     ->gotoRoute(array(
                         'controller' => 'admin_sitemap',
                         'action' => 'index',
-                        'id' =>$sitemapPage['parent_id']
+                        'id' => $sitemapPage['parent_id']
                             ), 'default', true);
         }
     }
+
 }
