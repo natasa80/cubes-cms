@@ -8,6 +8,7 @@ class Application_Form_Admin_SitemapPageAdd extends Zend_Form
     protected $parentId;
     
     public function __construct($parentId, $options = null) {
+        //morali smo da prosledimo parent id preko konstruktora
         
         $this->parentId = $parentId;
         
@@ -28,6 +29,8 @@ class Application_Form_Admin_SitemapPageAdd extends Zend_Form
         $type->addMultiOption('', '-- Select Sitemap Page Type --')
                 ->addMultiOptions(array(
                     'StaticPage' => 'Static Page',
+                    'AboutUsPage' => 'About Us Page',
+                    'ContactPage' => 'ContactPage',
                     
                 ))->setRequired(true);
         $this->addElement($type);

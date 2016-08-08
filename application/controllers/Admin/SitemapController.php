@@ -400,6 +400,7 @@ class Admin_SitemapController extends Zend_Controller_Action {
     }
 
     public function deleteAction() {
+        
         $request = $this->getRequest();
         if (!$request->isPost() || $request->getPost('task') != 'delete') {
             $redirector = $this->getHelper('Redirector');
@@ -422,7 +423,10 @@ class Admin_SitemapController extends Zend_Controller_Action {
             if (empty($sitemapPage)) {
                 throw new Application_Model_Exception_InvalidInput('No sitemap is found with id: ' . $id, 'errors');
             }
+            
+            
             $cmsSitemapPagesTable->deleteSitemapPage($id);
+            
             $flashMessenger->addMessage('Site: ' . $sitemapPage['short_title'] .  ' has been deleted', 'success');
             //redirect on another page
             $redirector = $this->getHelper('Redirector');
@@ -439,8 +443,7 @@ class Admin_SitemapController extends Zend_Controller_Action {
             $redirector->setExit(true)
                     ->gotoRoute(array(
                         'controller' => 'admin_sitemap',
-                        'action' => 'index',
-                        'id' =>$sitemapPage['parent_id']
+                        'action' => 'index'
                             ), 'default', true);
         }
     }

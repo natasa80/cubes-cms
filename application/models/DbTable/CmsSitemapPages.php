@@ -6,6 +6,54 @@ class Application_Model_DbTable_CmsSitemapPages extends Zend_Db_Table_Abstract {
     const STATUS_DISABLED = 0;
 
     protected $_name = 'cms_sitemap_pages';
+    //dohvaticemo ga preko statickog kost
+    protected static $sitemapPagesMap;
+
+    
+   /*
+    * @return array With keys as sitemap page ids and values as assoc array with keys url and type
+    */
+    public static function getSitemapPagesMap() {
+         //lazy loading
+        if (!self::$sitemapPagesMap) {
+            $sitemapPagesMap = array();
+
+            // $cmsSitemapPagesDbTable = new Application_Model_DbTable_CmsSitemapPages();
+            //isto kao ovo :
+            $cmsSitemapPagesDbTable = new self();
+
+            $sitemapPages = $cmsSitemapPagesDbTable->search(array(
+                'orders' => array(
+                    'parent_id' => 'ASC', //jako bitno jer je na osnovu ovoga vec setovan parent id u nizu i njegove vrednosti
+                    'order_number' => 'ASC'
+                )
+            ));
+
+
+            foreach ($sitemapPages as $sitemapPage) {
+
+                $type = $sitemapPage['type'];
+                $url = $sitemapPage['url_slug'];
+
+
+
+                if (isset($sitemapPagesMap[$sitemapPage['parent_id']])) {
+
+                    $url = $sitemapPagesMap[$sitemapPage['parent_id']]['url'] . '/' . $url;
+                }
+                
+                $sitemapPagesMap[$sitemapPage['id']] = array(
+                    'url' => $url,
+                    'type' => $type
+                );
+            }
+
+            self:: $sitemapPagesMap = $sitemapPagesMap;
+        }
+
+
+        return self::$sitemapPagesMap;
+    }
 
     /**
      * 
@@ -78,10 +126,7 @@ class Application_Model_DbTable_CmsSitemapPages extends Zend_Db_Table_Abstract {
         //sitemapPage to delete
         $sitemapPage = $this->getSitemapPageById($id);
 
-//        $this->update(array(
-//            'order_number' => new Zend_Db_Expr('order_number -1')
-//                ), 'order_number > ' . $sitemapPage['order_number'] . 'AND parent_id = ' . $sitemapPage['parent_id']);
-//
+
 
         $childSitemapPages = $this->search(array(
             'filters' => array(
@@ -100,6 +145,12 @@ class Application_Model_DbTable_CmsSitemapPages extends Zend_Db_Table_Abstract {
         } else {
             $this->delete('id = ' . $id);
         }
+
+
+
+//        $this->update(array(
+//            'order_number' => new Zend_Db_Expr('order_number -1')
+//                ), 'order_number > ' . $sitemapPage['order_number'] . 'AND parent_id = ' . $sitemapPage['parent_id']);
     }
 
     public function updateSitemapOfOrder($sortedIds) {
