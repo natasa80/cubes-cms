@@ -34,17 +34,19 @@ class AboutusController extends Zend_Controller_Action {
 
 
         if ($sitemapPageId <= 0) {
-            throw new Zend_Controller_Router_Exception('Invalid sitemap Page is found with id ' . $sitemapPageId, 404);
+           throw new Zend_Controller_Router_Exception('Invalid sitemap  is found with id ' . $sitemapPageId, 404);
         }
+
+        if (!$sitemapPage) {
+
+            throw new Zend_Controller_Router_Exception('Invalid sitemap  is found with id ' . $sitemapPageId, 404);
+        }
+
 
         $cmsSitemapPageDbTable = new Application_Model_DbTable_CmsSitemapPages();
 
         $sitemapPage = $cmsSitemapPageDbTable->getSitemapPageById($sitemapPageId);
 
-        if (!$sitemapPage) {
-
-            throw new Zend_Controller_Router_Exception('No sitemap page is found with id ' . $sitemapPageId, 404);
-        }
 
 
         if (
@@ -122,6 +124,36 @@ class AboutusController extends Zend_Controller_Action {
 
 
         $this->view->member = $member;
+    }
+
+    public function aboutusAction() {
+
+        $flashMessenger = $this->getHelper('FlashMessenger');
+
+        $systemMessages = array(
+            'success' => $flashMessenger->getMessages('success'),
+            'errors' => $flashMessenger->getMessages('errors'),
+        );
+
+
+        //prikaz svih membera
+        $cmsMembersDbTable = new Application_Model_DbTable_CmsMembers();
+
+
+        //select je objekat klase Zend_Db_ Select
+        $select = $cmsMembersDbTable->select();
+        $select->where('status = ?', Application_Model_DbTable_CmsMembers::STATUS_ENABLED)
+                ->order('order_number');
+
+
+        $request = $this->getRequest();
+
+
+
+
+        $members = $cmsMembersDbTable->fetchAll($select);
+        $this->view->members = $members;
+        $this->view->systemMessages = $systemMessages;
     }
 
 }
