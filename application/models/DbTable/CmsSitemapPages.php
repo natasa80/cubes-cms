@@ -9,12 +9,12 @@ class Application_Model_DbTable_CmsSitemapPages extends Zend_Db_Table_Abstract {
     //dohvaticemo ga preko statickog kost
     protected static $sitemapPagesMap;
 
-    
-   /*
-    * @return array With keys as sitemap page ids and values as assoc array with keys url and type
-    */
+    /*
+     * @return array With keys as sitemap page ids and values as assoc array with keys url and type
+     */
+
     public static function getSitemapPagesMap() {
-         //lazy loading
+        //lazy loading
         if (!self::$sitemapPagesMap) {
             $sitemapPagesMap = array();
 
@@ -41,7 +41,7 @@ class Application_Model_DbTable_CmsSitemapPages extends Zend_Db_Table_Abstract {
 
                     $url = $sitemapPagesMap[$sitemapPage['parent_id']]['url'] . '/' . $url;
                 }
-                
+
                 $sitemapPagesMap[$sitemapPage['id']] = array(
                     'url' => $url,
                     'type' => $type
@@ -148,9 +148,9 @@ class Application_Model_DbTable_CmsSitemapPages extends Zend_Db_Table_Abstract {
 
 
 
-//        $this->update(array(
-//            'order_number' => new Zend_Db_Expr('order_number -1')
-//                ), 'order_number > ' . $sitemapPage['order_number'] . 'AND parent_id = ' . $sitemapPage['parent_id']);
+        $this->update(array(
+            'order_number' => new Zend_Db_Expr('order_number -1')
+                ), 'order_number > ' . $sitemapPage['order_number'] . ' AND parent_id = ' . $sitemapPage['parent_id']);
     }
 
     public function updateSitemapOfOrder($sortedIds) {
