@@ -21,11 +21,22 @@ class AboutusController extends Zend_Controller_Action
         
         //prikaz svih membera
         $cmsMembersDbTable = new Application_Model_DbTable_CmsMembers();
+      
         
         //select je objekat klase Zend_Db_ Select
         $select = $cmsMembersDbTable->select();
         $select->where('status = ?', Application_Model_DbTable_CmsMembers::STATUS_ENABLED)
                 ->order('order_number');
+        
+        $cmsSitemapDbTable = new Application_Model_DbTable_CmsSitemapPages();
+        
+        $sitemapPages = $cmsSitemapDbTable->search(array(
+            'filters' => array(
+                'type' => 'AboutUsPage'
+            )
+        ));
+//        print_r($sitemapPages);
+//        die();
         
         
         //debug za db select - vraca se sql upit
@@ -33,6 +44,7 @@ class AboutusController extends Zend_Controller_Action
         
         
         $members = $cmsMembersDbTable->fetchAll($select);
+        $this->view->sitemapPages = $sitemapPages;
         $this->view->members = $members;
         $this->view->systemMessages =  $systemMessages;
         
