@@ -1,8 +1,8 @@
 <?php
-$sitemapPages = $this->sitemapPages;
+$sitemapPage = $this->sitemapPage;
 
-//$this->headTitle($sitemapPages['title']);
-//$this->headMeta()->appendName('description', $sitemapPages['description']);
+$this->headTitle($sitemapPage['title']);
+$this->headMeta()->appendName('description', $sitemapPage['description']);
 ?>
 
 <div id="highlighted">
@@ -10,15 +10,8 @@ $sitemapPages = $this->sitemapPages;
         <div class="header">
             <h2 class="page-title">
 
-                <?php foreach ($sitemapPages as $sitemapPage) { ?>
-
-                    <span><?php echo $this->escape($sitemapPage['title']); ?></span> 
-                    <small><?php echo $this->escape($sitemapPage['description']); ?></small>
-
-
-                    <?php
-                }
-                ?>
+              <span><?php echo $this->escape($sitemapPage['title']);?></span> 
+              <small><?php echo $this->escape($sitemapPage['description']);?></small>
             </h2>
         </div>
     </div>
@@ -33,11 +26,7 @@ $sitemapPages = $this->sitemapPages;
                     <?php echo $this->escape($sitemapPage['body']); ?>
                    </div>
                 
-                
-                
-                
-                
-                
+          
                 <!-- The team -->
                 <div class="block margin-top-large">
                     <h3 id="team" class="block-title">

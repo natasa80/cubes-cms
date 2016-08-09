@@ -28,23 +28,45 @@ class AboutusController extends Zend_Controller_Action
         $select->where('status = ?', Application_Model_DbTable_CmsMembers::STATUS_ENABLED)
                 ->order('order_number');
         
-        $cmsSitemapDbTable = new Application_Model_DbTable_CmsSitemapPages();
         
-        $sitemapPages = $cmsSitemapDbTable->search(array(
-            'filters' => array(
-                'type' => 'AboutUsPage'
-            )
-        ));
-//        print_r($sitemapPages);
+        $request = $this->getRequest();
+        
+        $sitemapPageId =(int) $request->getParam('sitemap_page_id');
+//          print_r($sitemapPageId);
 //        die();
         
         
+        if ($sitemapPageId <= 0) {
+             throw new Zend_Controller_Router_Exception('Invalid sitemap Page is found with id ' . $sitemapPageId, 404);
+            
+        }
+        
+        $cmsSitemapPageDbTable = new Application_Model_DbTable_CmsSitemapPages();
+        
+        $sitemapPage= $cmsSitemapPageDbTable->getSitemapPageById($sitemapPageId);
+      
+        if (!$sitemapPage){
+            
+             throw new Zend_Controller_Router_Exception('No sitemap page is found with id ' . $sitemapPageId, 404);
+        }
+        
+        
+        if (
+            $sitemapPage['status'] == Application_Model_DbTable_CmsSitemapPages::STATUS_DISABLED
+                //check if user is not logged in, than preview is not available
+                //for disabled pages
+            && !Zend_Auth::getInstance()->hasIdentity()
+         ){
+             throw new Zend_Controller_Router_Exception('No sitemap page is disabled ', 404);
+        }
+        
+     
         //debug za db select - vraca se sql upit
          //die($select->assemble());
         
         
         $members = $cmsMembersDbTable->fetchAll($select);
-        $this->view->sitemapPages = $sitemapPages;
+        $this->view->sitemapPage = $sitemapPage;
         $this->view->members = $members;
         $this->view->systemMessages =  $systemMessages;
         
