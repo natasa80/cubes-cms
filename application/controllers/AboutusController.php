@@ -31,10 +31,11 @@ class AboutusController extends Zend_Controller_Action {
         $sitemapPageId = (int) $request->getParam('sitemap_page_id');
 //          print_r($sitemapPageId);
 //        die();
-
-
+        $cmsSitemapPageDbTable = new Application_Model_DbTable_CmsSitemapPages();
+        $sitemapPage = $cmsSitemapPageDbTable->getSitemapPageById($sitemapPageId);
+        
         if ($sitemapPageId <= 0) {
-           throw new Zend_Controller_Router_Exception('Invalid sitemap  is found with id ' . $sitemapPageId, 404);
+            throw new Zend_Controller_Router_Exception('Invalid sitemap  is found with id ' . $sitemapPageId, 404);
         }
 
         if (!$sitemapPage) {
@@ -42,10 +43,6 @@ class AboutusController extends Zend_Controller_Action {
             throw new Zend_Controller_Router_Exception('Invalid sitemap  is found with id ' . $sitemapPageId, 404);
         }
 
-
-        $cmsSitemapPageDbTable = new Application_Model_DbTable_CmsSitemapPages();
-
-        $sitemapPage = $cmsSitemapPageDbTable->getSitemapPageById($sitemapPageId);
 
 
 
