@@ -1,0 +1,18 @@
+"Aleksandar Stevanović",
+"Aleksandra Petković",
+"Arben Bakiu",
+"Bojan Jončić",
+"Djordje Stojiljković",
+"Milomir Dragović",
+"Miloš Stefanović",
+"Miroslav Mutić",
+"Nataša Lukić",
+"Željka Babić"
+
+array(
+	array("ime" => "Aleksandar", "prezime" => "Dimic", "kurs" => "PHP"),
+	array("ime" => "Aleksandar", "prezime" => "Stanojevic", "kurs" => "PHP"),
+	array("ime" => "Djuro", "prezime" => "Alfirevic", "kurs" => "iOS"),
+	array("ime" => "Marko", "prezime" => "Dragonjic", "kurs" => "Android"),
+	array("ime" => "Vladan", "prezime" => "Dzulovic", "kurs" => "HTML CSS JS"),
+)

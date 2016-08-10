@@ -221,7 +221,7 @@ $form->setElementDecorators(array('ViewHelper'));
 		</div>
 	</div>
 </div>
-
+<?php $this->inlineScript()->appendFile($this->baseUrl('admin/bower_components/ckeditor/ckeditor.js'));?>
 <script>
     <?php $this->inlineScript()->captureStart();?>
        
@@ -262,6 +262,22 @@ $form->setElementDecorators(array('ViewHelper'));
            
        });
         
+          //body is not elemene tag, it is elementh with id='body
+       ////thts our textarea with name='body' and id='body' 
+     CKEDITOR.replace('body', { //ovde pravimo neku konfiguraciju za ovaj plugin
+       'contentsCss': [
+             '<?php echo $this->baseUrl('/plugins/bootstrap/dist/css/bootstrap.min.css'); ?>',
+             '<?php echo $this->baseUrl('/plugins/font-awesome/css/font-awesome.min.css'); ?>',
+             '<?php echo $this->baseUrl('/css/theme-style.css'); ?>',
+             '<?php echo $this->baseUrl('/css/custom-style.css'); ?>',
+             '<?php echo $this->baseUrl('/css/colour-blue.css'); ?>"',
+             'https://fonts.googleapis.com/css?family=Monda:400,700'
+        ],
+        allowedContent: true,//enable all html tags//dpzvoljavamo sve da se upise
+        height: 600,
+        bodyClass: 'block',
+        filebrowserBrowseUrl: '<?php echo $this->url(array('controller' => 'admin_filemanager', 'action'=> 'popup'), 'default', true);?>'
+     }); 
         
     <?php $this->inlineScript()->captureEnd();?>
     </script>
