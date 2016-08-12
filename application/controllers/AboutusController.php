@@ -7,7 +7,7 @@ class AboutusController extends Zend_Controller_Action {
     }
 
     public function indexAction() {
-
+        $request = $this->getRequest();
         $flashMessenger = $this->getHelper('FlashMessenger');
 
         $systemMessages = array(
@@ -26,7 +26,7 @@ class AboutusController extends Zend_Controller_Action {
                 ->order('order_number');
 
 
-        $request = $this->getRequest();
+       
 
         $sitemapPageId = (int) $request->getParam('sitemap_page_id');
 //          print_r($sitemapPageId);

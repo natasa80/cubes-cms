@@ -6,36 +6,61 @@ class Application_Form_Admin_SitemapPageAdd extends Zend_Form
     
     
     protected $parentId;
+    protected $parentType;
     
-    public function __construct($parentId, $options = null) {
+    public function __construct($parentId,$parentType, $options = null) {
         //morali smo da prosledimo parent id preko konstruktora
         
         $this->parentId = $parentId;
+        $this->parentType = $parentType;
         
         parent::__construct($options);
     }
 
         public function init(){
         
-        //type
-        //url_slug
-        //short_title
-        //description
-        //body
+       $sitemapPageTypes = Zend_Registry::get('sitemapPageTypes');
+       $rootSitemapPageTypes = Zend_Registry::get('rootSitemapPageTypes');
+       
+       
+       
+       if ($this->parentId == 0) {
+            $parentSubTypes = $rootSitemapPageTypes;
+        } else {
+            $parentSubTypes = $sitemapPageTypes[$this->parentType]['subtypes'];
+        }
+
+        
+        $cmsSitemapPgesDbTable = new Application_Model_DbTable_CmsSitemapPages();
+        
+        $parentSubtypesCount = $cmsSitemapPgesDbTable->countByTypes(array(
+            'parent_id' => $this->parentId
+        ));
         
         //zend_form-element-select/multiselect/multicheckbox
         $type = new Zend_Form_Element_Select('type');
             
         $type->addMultiOption('', '-- Select Sitemap Page Type --')
-                ->addMultiOptions(array(
-                    'StaticPage' => 'Static Page',
-                    'AboutUsPage' => 'About Us Page',
-                    'ContactPage' => 'ContactPage',
-                    
-                ))->setRequired(true);
+                ->setRequired(true);
+        
+        foreach ($parentSubTypes as $sitemapPageType => $sitemapPageTypeMax){
+            $sitemapPageTypeProperties = $sitemapPageTypes[$sitemapPageType];
+            
+            $totalExistingSitemapPagesOfType = isset($parentSubtypesCount[$sitemapPageType]) ? $parentSubtypesCount[$sitemapPageType] : 0;
+            
+            if($sitemapPageTypeMax == 0 || $sitemapPageTypeMax > $totalExistingSitemapPagesOfType){
+                
+               $type->addMultiOption($sitemapPageType, $sitemapPageTypeProperties['title']); 
+            }
+            
+           
+            
+        }
+        
         $this->addElement($type);
         
         
+       
         $urlSlug = new Zend_Form_Element_Text('url_slug');
         $urlSlug->addFilter('StringTrim')
                 ->addFilter(new Application_Model_Filter_UrlSlug()) //posto je ovo nas custom filter moramo pvako da ga pozovemo

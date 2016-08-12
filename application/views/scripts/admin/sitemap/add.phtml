@@ -273,6 +273,7 @@ $form->setElementDecorators(array('ViewHelper'));
         allowedContent: true,//enable all html tags//dpzvoljavamo sve da se upise
         height: 600,
         bodyClass: 'block',
+        //tek kada imamo ovu conf pojavljuje nam se browse pic u popup-u
         filebrowserBrowseUrl: '<?php echo $this->url(array('controller' => 'admin_filemanager', 'action'=> 'popup'), 'default', true);?>'
      }); 
      
