@@ -33,7 +33,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
                 )
             ),
         );
-        //definisemo tipove stranoica koje mogu doci u root
+        //definisemo tipove stranoica koje mogu doci u root//parent id =0
         $rootSitemapPageTypes = array(
             'StaticPage' => 0,
             'AboutUsPage' => 1,
@@ -41,6 +41,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
             'ContactPage' => 1
         );
         //preporucljivo je da se registar puni u bootsrapu
+        //klasa koja implementira singleton
         Zend_Registry::set('sitemapPageTypes', $sitemapPageTypes);
         Zend_Registry::set('rootSitemapPageTypes', $rootSitemapPageTypes);
 
