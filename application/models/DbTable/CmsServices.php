@@ -168,9 +168,8 @@ class Application_Model_DbTable_CmsServices extends Zend_Db_Table_Abstract {
 
                     case 'id':
                     case 'title':
-                    case 'description':
-                    case 'order_name':
                     case 'status':
+                    case 'order_number':
 
 
                         if ($orderDirection === 'DESC') {
@@ -243,9 +242,8 @@ class Application_Model_DbTable_CmsServices extends Zend_Db_Table_Abstract {
 
                     case 'id':
                     case 'title':
-                    case 'description':
-                    case 'order_name':
                     case 'status':
+                    case 'order_number':
 
                     if (is_array($value)) {
                         $select->where($field . ' IN (?)', $value);
@@ -262,7 +260,7 @@ class Application_Model_DbTable_CmsServices extends Zend_Db_Table_Abstract {
                     $select->where('username LIKE ?', '%' . $value . '%');
                     break;
 
-                case 'description_name_search':
+                case 'description_search':
 
                     $select->where('first_name LIKE ?', '%' . $value . '%');
                     break;

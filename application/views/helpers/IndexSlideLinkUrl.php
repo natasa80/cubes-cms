@@ -16,12 +16,12 @@ class Zend_View_Helper_IndexSlideLinkUrl extends Zend_View_Helper_Abstract
             
              case 'InternalLink':
                  
-                return $this->view->baseUrl($indexSlide['internal_linkUrl']);
+                return $this->view->baseUrl($indexSlide['internal_link_url']);
                 break;
             
              case 'ExternalLink':
                  
-                 return $indexSlide['external_linkUrl'];
+                 return $indexSlide['external_link_url'];
                 
             
             default:

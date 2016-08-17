@@ -17,17 +17,52 @@ class IndexController extends Zend_Controller_Action
             'errors' =>  $flashMessenger->getMessages('errors'),
         );
         
+       
         
-        //prikaz svih servisa
-        $cmsClientsDbTable = new Application_Model_DbTable_CmsClients();
+        //prikaz  slide-ova
+        //
+        $cmsSlidesDBTable = new Application_Model_DbTable_CmsIndexSlides ();
        
-        $select = $cmsClientsDbTable->select();
-        $select->where('status = ?', Application_Model_DbTable_CmsClients::STATUS_ENABLED)
-                ->order('order_number', 'DESC');
-                
+       $indexSlides = $cmsSlidesDBTable->search(array(
+           'filters' => array(
+               'status' => Application_Model_DbTable_CmsIndexSlides::STATUS_ENABLED
+           ),
+           'orders' => array(
+                'order_number' => 'ASC',
+            )
+       ));
        
-        $clients = $cmsClientsDbTable->fetchAll($select);
-        $this->view->clients = $clients;
+        
+        //prikaz servisa
+        $cmsServicesDbTable = new Application_Model_DbTable_CmsServices();
+       
+       
+        $services = $cmsServicesDbTable->search(array(
+           'filters' => array(
+               'status' => Application_Model_DbTable_CmsServices::STATUS_ENABLED
+           ),
+           'orders' => array(
+                'order_number' => 'ASC',
+            ),
+            'limit'=> 4
+       ));
+        
+        //sitemappage
+        
+        $cmsSitemapPagesDbTable = new Application_Model_DbTable_CmsSitemapPages();
+        $servicesSitemapPages = $cmsSitemapPagesDbTable->search(array(
+			'filters' => array(
+				'status' => Application_Model_DbTable_CmsSitemapPages::STATUS_ENABLED,
+				'type' => 'ServicesPage'
+			)
+		));
+        
+        $serviceSitemapPageId = $servicesSitemapPages[0]['id'];
+            
+
+        $this->view->serviceSitemapPageId = $serviceSitemapPageId;
+        $this->view->services = $services;
+        $this->view->indexSlides = $indexSlides;
         $this->view->systemMessages =  $systemMessages;
     }
     
