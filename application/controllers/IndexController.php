@@ -54,9 +54,10 @@ class IndexController extends Zend_Controller_Action
 			'filters' => array(
 				'status' => Application_Model_DbTable_CmsSitemapPages::STATUS_ENABLED,
 				'type' => 'ServicesPage'
-			)
+			),
+                        'limit'=> 1
 		));
-        
+        //$servicesSitemapPages = !empty($servicesSitemapPages) ?$servicesSitemapPages[0] : null;
         $serviceSitemapPageId = $servicesSitemapPages[0]['id'];
             
 
