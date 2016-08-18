@@ -32,13 +32,19 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
                 'subtypes' => array(
                 )
             ),
+            'PhotoGalleriesPage' => array(
+                'title' => 'PhotoGalleries Page',
+                'subtypes' => array(
+                )
+            ),
         );
         //definisemo tipove stranoica koje mogu doci u root//parent id =0
         $rootSitemapPageTypes = array(
             'StaticPage' => 0,
             'AboutUsPage' => 1,
             'ServicesPage' => 1,
-            'ContactPage' => 1
+            'ContactPage' => 1,
+            'PhotoGalleriesPage' => 1
         );
         //preporucljivo je da se registar puni u bootsrapu
         //klasa koja implementira singleton
@@ -115,6 +121,24 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
                         $sitemapPageMap['url'], array(
                     'controller' => 'services',
                     'action' => 'index',
+                    'sitemap_page_id' => $sitemapPageId
+                        )
+                ));
+            }
+            if ($sitemapPageMap['type'] == 'PhotoGalleriesPage') {
+                
+                $router->addRoute('static-page-route-' . $sitemapPageId, new Zend_Controller_Router_Route_Static(
+                        $sitemapPageMap['url'], array(
+                    'controller' => 'photogalleries',
+                    'action' => 'index',
+                    'sitemap_page_id' => $sitemapPageId
+                        )
+                ));
+                
+                $router->addRoute('photo-gallery-route', new Zend_Controller_Router_Route(
+                        $sitemapPageMap['url'] . '/:id/:photo_gallery_slug', array(
+                    'controller' => 'photogalleries',
+                    'action' => 'gallery',
                     'sitemap_page_id' => $sitemapPageId
                         )
                 ));
