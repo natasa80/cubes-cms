@@ -2,7 +2,7 @@
 <?php
 $indexSlides = $this->indexSlides;
 $services = $this->services;
-$serviceSitemapPageId = $this->serviceSitemapPageId;
+$servicesSitemapPages = $this->servicesSitemapPages;
 $photoGalleriesPages = $this->photoGalleriesPages;
 $photoGalleries = $this->photoGalleries;
 
@@ -58,8 +58,9 @@ $photoGalleries = $this->photoGalleries;
         <div class="block services margin-top-large">
             <h2 class="block-title">
                 <span>Our Services</span> 
-                
-                <small><a href="<?php echo $this->sitemapPageUrl($serviceSitemapPageId); ?>">View all</a></small>
+                <?php if ($servicesSitemapPages) {?>
+                <small><a href="<?php echo $this->sitemapPageUrl($servicesSitemapPages['id']); ?>">View all</a></small>
+                <?php }?>
             </h2>
             <ul class="thumbnails row">
                 <?php foreach($services as $service) { ?>

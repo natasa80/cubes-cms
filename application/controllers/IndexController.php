@@ -57,8 +57,8 @@ class IndexController extends Zend_Controller_Action
 			),
                         'limit'=> 1
 		));
-        //$servicesSitemapPages = !empty($servicesSitemapPages) ?$servicesSitemapPages[0] : null;
-        $serviceSitemapPageId = $servicesSitemapPages[0]['id'];
+        $servicesSitemapPages = !empty($servicesSitemapPages) ?$servicesSitemapPages[0] : null;
+        //$serviceSitemapPageId = $servicesSitemapPages[0]['id'];
             
         
         
@@ -92,7 +92,7 @@ class IndexController extends Zend_Controller_Action
         $this->view->services = $services;
         $this->view->indexSlides = $indexSlides;
         $this->view->systemMessages =  $systemMessages;
-        $this->view->serviceSitemapPageId =  $serviceSitemapPageId;
+        $this->view->servicesSitemapPages =  $servicesSitemapPages;
     }
     
     //

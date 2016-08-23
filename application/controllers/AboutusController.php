@@ -16,7 +16,7 @@ class AboutusController extends Zend_Controller_Action {
         );
 
 
-        //prikaz svih membera
+        //prikaz svih memberammm
         $cmsMembersDbTable = new Application_Model_DbTable_CmsMembers();
 
 

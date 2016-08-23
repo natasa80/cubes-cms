@@ -30,7 +30,6 @@ class ContactController extends Zend_Controller_Action
         }
         
         
-        
         $cmsMembersDbTable = new Application_Model_DbTable_CmsMembers();
         
         

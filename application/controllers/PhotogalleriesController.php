@@ -24,19 +24,20 @@ class PhotogalleriesController extends Zend_Controller_Action {
         }
 
 
-
-        $flashMessenger = $this->getHelper('FlashMessenger');
-
-        $systemMessages = array(
-            'success' => $flashMessenger->getMessages('success'),
-            'errors' => $flashMessenger->getMessages('errors'),
-        );
+//
+//        $flashMessenger = $this->getHelper('FlashMessenger');
+//
+//        $systemMessages = array(
+//            'success' => $flashMessenger->getMessages('success'),
+//            'errors' => $flashMessenger->getMessages('errors'),
+//        );
 
 
         $cmsPhotosDbTable = new Application_Model_DbTable_CmsPhotos();
         $photos = $cmsPhotosDbTable->search(array(
             'filters' => array(
-                'photo_gallery_id' => $photoGallery['id']
+                'photo_gallery_id' => $photoGallery['id'],
+                'status' =>  Application_Model_DbTable_CmsPhotos::STATUS_ENABLED
             ),
             'orders' => array(
                 'order_number' => 'ASC'
@@ -106,8 +107,6 @@ class PhotogalleriesController extends Zend_Controller_Action {
 
             throw new Zend_Controller_Router_Exception('Invalid sitemap  is found with id ' . $sitemapPageId, 404);
         }
-
-
 
 
         if (
