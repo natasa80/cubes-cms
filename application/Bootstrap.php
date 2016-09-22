@@ -50,6 +50,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         //klasa koja implementira singleton
         Zend_Registry::set('sitemapPageTypes', $sitemapPageTypes);
         Zend_Registry::set('rootSitemapPageTypes', $rootSitemapPageTypes);
+        
+        //OVDE PRAVIMO RUTE
 
         $router = Zend_Controller_Front::getInstance()->getRouter();
 

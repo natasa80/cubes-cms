@@ -23,6 +23,7 @@ class Application_Model_DbTable_CmsServices extends Zend_Db_Table_Abstract {
         }
     }
 
+    
     /**
      * 
      * @param int $id
