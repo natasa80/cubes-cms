@@ -16,7 +16,7 @@ class AboutusController extends Zend_Controller_Action {
         );
 
 
-        //prikaz svih memberammm
+        //prikaz svih membera
         $cmsMembersDbTable = new Application_Model_DbTable_CmsMembers();
 
 
@@ -25,8 +25,6 @@ class AboutusController extends Zend_Controller_Action {
         $select->where('status = ?', Application_Model_DbTable_CmsMembers::STATUS_ENABLED)
                 ->order('order_number');
 
-
-       
 
         $sitemapPageId = (int) $request->getParam('sitemap_page_id');
 //          print_r($sitemapPageId);
