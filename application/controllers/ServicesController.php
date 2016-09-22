@@ -33,6 +33,10 @@ class ServicesController extends Zend_Controller_Action
         $this->view->systemMessages =  $systemMessages;
         
     }
+    
+    public function serviceAction(){
+        
+    }
 
 }
 

@@ -27,5 +27,7 @@ $application = new Zend_Application( //enkapsulira nasu aplikaciju
     APPLICATION_ENV,
     APPLICATION_PATH . '/configs/application.ini'
 );
+
+date_default_timezone_set('Europe/Belgrade');
 $application->bootstrap()//bootstrapuje
             ->run();
