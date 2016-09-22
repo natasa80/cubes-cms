@@ -2,6 +2,7 @@
 //ovaj kontroler sluzi za prikazivanje stranica tipa static page
 
 
+
 class StaticPageController extends Zend_Controller_Action 
 {
     
@@ -22,8 +23,6 @@ class StaticPageController extends Zend_Controller_Action
         
         $sitemapPage= $cmsSitemapPageDbTable->getSitemapPageById($sitemapPageId);
        
-        
-        
         
         
         if (
