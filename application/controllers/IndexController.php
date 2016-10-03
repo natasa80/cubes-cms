@@ -10,7 +10,7 @@ class IndexController extends Zend_Controller_Action
 
     public function indexAction()
     {
-         $flashMessenger = $this->getHelper('FlashMessenger');
+        $flashMessenger = $this->getHelper('FlashMessenger');
         
         $systemMessages = array(
             'success' => $flashMessenger->getMessages('success'),
