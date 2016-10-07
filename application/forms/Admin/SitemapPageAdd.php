@@ -97,5 +97,11 @@ class Application_Form_Admin_SitemapPageAdd extends Zend_Form
         $body= new Zend_Form_Element_Textarea('body');
         $body->setRequired(true);
         $this->addElement($body);
+        
+        $csrfToken = new Zend_Form_Element_Hash('csrf_token');
+        
+        $this->addElement($csrfToken);
+        
+        
     }
 }

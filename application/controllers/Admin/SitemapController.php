@@ -108,7 +108,9 @@ class Admin_SitemapController extends Zend_Controller_Action {
                 //get form data//vrednosti iz forme se uzimaju preko getVaues i upisuju u niz
                 //to su filtrirani i validirani podaci
                 $formData = $form->getValues();
-
+                //unset csrf token
+                unset($formData['csrf_token']);
+              
                 //set parent_id for new page
                 $formData['parent_id'] = $parentId;
 
